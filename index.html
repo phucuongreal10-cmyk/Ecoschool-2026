@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTask - ICIA Titanium</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand" onclick="AppState.navigateTo('home')">
+            <i data-lucide="tree-deciduous"></i>
+            <span>EcoTask</span>
+            <span class="badge">Titanium</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="nav-menu">
+            <button class="nav-link active" onclick="AppState.navigateTo('home')" data-page="home">
+                <i data-lucide="home"></i> <span data-i18n="nav_home">Trang chủ</span>
+            </button>
+            <button class="nav-link" onclick="AppState.navigateTo('scanner')" data-page="scanner">
+                <i data-lucide="scan-line"></i> <span data-i18n="nav_scan">Quét AI</span>
+            </button>
+            <button class="nav-link" onclick="AppState.navigateTo('stats')" data-page="stats">
+                <i data-lucide="bar-chart-2"></i> <span data-i18n="nav_stats">Thống kê</span>
+            </button>
+            <button class="nav-link" onclick="AppState.navigateTo('wiki')" data-page="wiki">
+                <i data-lucide="book-open"></i> <span data-i18n="nav_wiki">Hướng dẫn</span>
+            </button>
+        </div>
+
+        <div class="nav-actions">
+            <!-- Language Toggle -->
+            <button class="nav-btn lang-btn" id="lang-toggle" onclick="AppState.toggleLanguage()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="VN"
+                    class="lang-flag" id="lang-icon">
+                <span id="lang-text">VN</span>
+            </button>
+
+            <!-- Dark Mode Toggle -->
+            <button class="nav-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                <i data-lucide="moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+
+        <!-- PAGE: HOME -->
+        <div id="page-home" class="page-view active">
+            <header class="hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <span class="hero-badge">
+                            <i data-lucide="sparkles"></i>
+                            <span data-i18n="hero_badge">AI-Powered Recycling Assistant</span>
+                        </span>
+                        <h1 data-i18n="hero_title">Biến rác thải thành <span class="text-gradient">tài nguyên</span>
+                        </h1>
+                        <p data-i18n="hero_desc">Sử dụng trí tuệ nhân tạo (AI) để phân loại rác và theo dõi tác động môi
+                            trường của toàn trường.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="AppState.navigateTo('scanner')">
+                                <i data-lucide="scan-line"></i> <span data-i18n="btn_scan">Quét rác ngay (AI)</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="AppState.navigateTo('stats')">
+                                <i data-lucide="bar-chart-2"></i> <span data-i18n="btn_stats">Xem thống kê</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="scanner-mockup">
+                            <div class="scanner-frame">
+                                <div class="scan-line"></div>
+                                <div class="scan-overlay">
+                                    <i data-lucide="scan"></i>
+                                    <span>AI Identifying...</span>
+                                </div>
+                                <img src="https://images.unsplash.com/photo-1591193686104-fddba4d0e4d8?q=80&w=400&auto=format&fit=crop"
+                                    alt="Plastic Bottle">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Quick Features Grid (Home Only) -->
+            <section class="features-preview">
+                <div class="feature-card" onclick="AppState.navigateTo('scanner')">
+                    <div class="feature-icon"><i data-lucide="camera"></i></div>
+                    <h3 data-i18n="feat_scan_title">Nhận diện AI</h3>
+                    <p data-i18n="feat_scan_desc">Phân loại rác tự động chỉ trong 3 giây.</p>
+                </div>
+                <div class="feature-card" onclick="AppState.navigateTo('stats')">
+                    <div class="feature-icon"><i data-lucide="trending-up"></i></div>
+                    <h3 data-i18n="feat_stats_title">Theo dõi Tác động</h3>
+                    <p data-i18n="feat_stats_desc">Xem số liệu giảm thải CO2 thời gian thực.</p>
+                </div>
+                <div class="feature-card" onclick="AppState.navigateTo('wiki')">
+                    <div class="feature-icon"><i data-lucide="book"></i></div>
+                    <h3 data-i18n="feat_wiki_title">Wiki Tái chế</h3>
+                    <p data-i18n="feat_wiki_desc">Hướng dẫn chi tiết cách xử lý từng loại rác.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: SCANNER -->
+        <div id="page-scanner" class="page-view hidden">
+            <section class="scanner-section">
+                <div class="section-header">
+                    <h2 data-i18n="scanner_title">AI Waste Scanner</h2>
+                    <p data-i18n="scanner_subtitle">Công nghệ nhận diện rác thải tiên tiến</p>
+                </div>
+                <div class="scanner-container">
+                    <div class="scanner-interface">
+                        <div class="upload-zone" id="upload-zone">
+                            <input type="file" id="ai-upload" accept="image/*" hidden>
+                            <div class="upload-content">
+                                <i data-lucide="camera" class="upload-icon"></i>
+                                <h3 data-i18n="upload_title">Chụp ảnh hoặc tải lên</h3>
+                                <p data-i18n="upload_desc">AI sẽ tự động phân loại rác giúp bạn</p>
+                                <button class="btn btn-sm btn-primary"
+                                    onclick="document.getElementById('ai-upload').click()" data-i18n="btn_upload">Chọn
+                                    ảnh</button>
+                            </div>
+                            <div id="ai-preview" class="ai-preview hidden">
+                                <img id="preview-img" src="" alt="Preview">
+                                <div class="scanning-effect hidden" id="scanning-effect">
+                                    <div class="scan-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scanner-result hidden" id="scanner-result">
+                        <h3 data-i18n="result_title">Kết quả phân tích AI</h3>
+                        <div class="result-card">
+                            <div class="result-icon-wrapper" id="result-icon-wrapper">
+                                <i data-lucide="box"></i>
+                            </div>
+                            <div class="result-info">
+                                <h4 id="result-type">Rác Nhựa (Plastic)</h4>
+                                <p class="confidence"><span data-i18n="confidence">Độ chính xác:</span> <span
+                                        id="result-confidence">98%</span></p>
+                                <p class="disposal-guide" id="result-guide">
+                                    💡 Guide: Rinse, flatten, and put in the yellow bin.
+                                </p>
+                                <div class="impact-gained">
+                                    <i data-lucide="leaf"></i> <span id="impact-val">+0.05kg CO2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scanner-actions">
+                            <button class="btn btn-primary" onclick="AppState.confirmRecycle()">
+                                <i data-lucide="check"></i> <span data-i18n="btn_confirm">Xác nhận đã tái chế</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="AppState.resetScanner()">
+                                <i data-lucide="refresh-cw"></i> <span data-i18n="btn_rescan">Quét lại</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: STATS -->
+        <div id="page-stats" class="page-view hidden">
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 data-i18n="dashboard_title">Thống kê Tác động</h2>
+                    <p data-i18n="dashboard_subtitle">Dữ liệu thực tế từ toàn trường</p>
+                </div>
+
+                <!-- User Profile Context -->
+                <div class="user-profile-context hidden" id="profile-context">
+                    <div class="profile-card-small">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar"
+                            class="profile-avatar">
+                        <div class="profile-info">
+                            <span class="profile-name">Nguyễn Văn A</span>
+                            <span class="profile-class">Học sinh lớp 9A1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Controls -->
+                <div class="stats-controls">
+                    <!-- Scope Toggles -->
+                    <div class="scope-toggles">
+                        <button class="scope-btn active" onclick="AppState.setStatsScope('personal')" id="btn-personal">
+                            <i data-lucide="user"></i> <span data-i18n="filter_personal">Cá nhân</span>
+                        </button>
+                        <button class="scope-btn" onclick="AppState.setStatsScope('class')" id="btn-class">
+                            <i data-lucide="users"></i> <span data-i18n="filter_class">Lớp</span>
+                        </button>
+                        <button class="scope-btn" onclick="AppState.setStatsScope('grade')" id="btn-grade">
+                            <i data-lucide="layers"></i> <span data-i18n="filter_grade">Khối</span>
+                        </button>
+                        <button class="scope-btn" onclick="AppState.setStatsScope('school')" id="btn-school">
+                            <i data-lucide="school"></i> <span data-i18n="filter_school">Toàn trường</span>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Filters (Hidden based on scope) -->
+                    <div class="filter-dropdowns">
+                        <select id="grade-select" class="form-select hidden" onchange="AppState.updateDashboardData()">
+                            <option value="6">Khối 6</option>
+                            <option value="7">Khối 7</option>
+                            <option value="8">Khối 8</option>
+                            <option value="9" selected>Khối 9</option>
+                        </select>
+
+                        <select id="class-select" class="form-select hidden" onchange="AppState.updateDashboardData()">
+                            <!-- Will be populated by JS -->
+                            <option value="9A1">Lớp 9A1</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <!-- Key Metrics -->
+                    <div class="metric-card">
+                        <div class="metric-icon leaf"><i data-lucide="leaf"></i></div>
+                        <h3 id="stat-co2">24.5 kg</h3>
+                        <p>CO2 Reduced</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon recycle"><i data-lucide="recycle"></i></div>
+                        <h3 id="stat-waste">150 kg</h3>
+                        <p>Waste Recycled</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon tree"><i data-lucide="tree-deciduous"></i></div>
+                        <h3 id="stat-trees">12</h3>
+                        <p>Trees Saved</p>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="chart-card wide">
+                        <h3 data-i18n="chart_waste_title">Phân loại rác thải</h3>
+                        <canvas id="wasteChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3 data-i18n="chart_trend_title">Xu hướng hàng tháng</h3>
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: WIKI -->
+        <div id="page-wiki" class="page-view hidden">
+            <section class="wiki-section">
+                <div class="section-header">
+                    <h2 data-i18n="wiki_title">Hướng dẫn Tái chế</h2>
+                    <p data-i18n="wiki_subtitle">Tra cứu nhanh cách xử lý các loại rác phổ biến</p>
+                </div>
+
+                <!-- Toggle between Cards and Videos -->
+                <div class="wiki-tabs" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 24px;">
+                    <button class="filter-btn active" onclick="AppState.showWikiTab('guides')">Cẩm nang</button>
+                    <button class="filter-btn" onclick="AppState.showWikiTab('videos')">Video Hướng dẫn</button>
+                </div>
+
+                <!-- Wiki Grid -->
+                <div id="wiki-guides" class="wiki-grid">
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header plastic">
+                            <i data-lucide="coffee"></i>
+                        </div>
+                        <h3 data-i18n="wiki_plastic">Nhựa (Plastic)</h3>
+                        <p class="wiki-desc">Chai nước, hộp đựng thức ăn, ly nhựa.</p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do" data-i18n="wiki_plastic_do1">Rửa sạch và để ráo</li>
+                            <li class="do" data-i18n="wiki_plastic_do2">Bóp bẹp để tiết kiệm diện tích</li>
+                            <li class="dont" data-i18n="wiki_plastic_dont">Không bỏ ống hút nhựa nhỏ</li>
+                        </ul>
+                    </div>
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header paper">
+                            <i data-lucide="file-text"></i>
+                        </div>
+                        <h3 data-i18n="wiki_paper">Giấy (Paper)</h3>
+                        <p class="wiki-desc">Sách báo, thùng carton, giấy in.</p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do" data-i18n="wiki_paper_do1">Giữ giấy phẳng và khô ráo</li>
+                            <li class="do" data-i18n="wiki_paper_do2">Tháo băng keo trên thùng carton</li>
+                            <li class="dont" data-i18n="wiki_paper_dont">Không tái chế giấy dính dầu mỡ</li>
+                        </ul>
+                    </div>
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header metal">
+                            <i data-lucide="disc"></i>
+                        </div>
+                        <h3 data-i18n="wiki_metal">Kim loại (Metal)</h3>
+                        <p class="wiki-desc">Lon nước ngọt, hộp thực phẩm, nắp chai.</p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do" data-i18n="wiki_metal_do1">Đổ hết chất lỏng bên trong</li>
+                            <li class="do" data-i18n="wiki_metal_do2">Rửa sạch thực phẩm thừa</li>
+                            <li class="dont" data-i18n="wiki_metal_dont">Không tái chế vỏ bình xịt hóa chất</li>
+                        </ul>
+                    </div>
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header glass">
+                            <i data-lucide="wine"></i>
+                        </div>
+                        <h3 data-i18n="wiki_glass">Thủy tinh (Glass)</h3>
+                        <p class="wiki-desc">Chai lọ thủy tinh các loại.</p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do">Rửa sạch và tháo nắp</li>
+                            <li class="do">Phân loại theo màu nếu có thể</li>
+                            <li class="dont">Không bỏ gương vỡ, bóng đèn</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Video Grid (Hidden by default) -->
+                <div id="wiki-videos" class="wiki-grid hidden">
+                    <!-- Video 1 -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/Vir8f286eQI"
+                            title="How to Recycle Plastic" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Cách phân loại rác nhựa đúng cách</h3>
+                        <p class="wiki-desc">Hướng dẫn chi tiết quy trình xử lý chai nhựa trước khi bỏ vào thùng tái
+                            chế.</p>
+                    </div>
+                    <!-- Video 2 -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/VlRVPKeyhMw"
+                            title="Recycling Paper" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Tái chế giấy: Nên và Không nên</h3>
+                        <p class="wiki-desc">Những loại giấy nào tái chế được và loại nào phải bỏ rác thải sinh hoạt?
+                        </p>
+                    </div>
+                    <!-- Video 3 -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/Ba07bBAi8O4"
+                            title="Metal Recycling" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Quy trình tái chế kim loại</h3>
+                        <p class="wiki-desc">Khám phá hành trình tái sinh của một chiếc lon nhôm.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i data-lucide="tree-deciduous"></i>
+                <span>EcoTask Titanium</span>
+                <p>Built with AI for a Green Future</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ICIA Innovation Challenge.</p>
+        </div>
+    </footer>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
