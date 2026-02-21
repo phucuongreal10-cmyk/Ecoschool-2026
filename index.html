@@ -41,6 +41,9 @@
             <button class="nav-link" onclick="AppState.navigateTo('stats')" data-page="stats">
                 <i data-lucide="bar-chart-2"></i> <span data-i18n="nav_stats">Thống kê</span>
             </button>
+            <button class="nav-link" onclick="AppState.navigateTo('rewards')" data-page="rewards">
+                <i data-lucide="gift"></i> <span data-i18n="nav_rewards">Đổi quà</span>
+            </button>
             <button class="nav-link" onclick="AppState.navigateTo('wiki')" data-page="wiki">
                 <i data-lucide="book-open"></i> <span data-i18n="nav_wiki">Hướng dẫn</span>
             </button>
@@ -58,8 +61,103 @@
             <button class="nav-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
                 <i data-lucide="moon"></i>
             </button>
+
+            <!-- Login / User Avatar -->
+            <div id="nav-guest" class="nav-user-area">
+                <button class="btn btn-sm btn-primary" onclick="AppState.openLoginModal()" data-i18n="btn_login">Đăng
+                    nhập</button>
+            </div>
+            <div id="nav-user" class="nav-user-area hidden" onclick="AppState.openUserMenu()">
+                <img id="nav-avatar" src="" alt="" class="nav-avatar">
+                <div class="nav-user-info">
+                    <span id="nav-username" class="nav-username"></span>
+                    <span id="nav-token-display" class="nav-tokens"><i data-lucide="leaf"
+                            style="width:12px;height:12px"></i> <span id="nav-tokens">0</span> tokens</span>
+                </div>
+            </div>
         </div>
     </nav>
+
+    <!-- =====================  LOGIN MODAL ===================== -->
+    <div class="modal-overlay hidden" id="login-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="AppState.closeLoginModal()"><i data-lucide="x"></i></button>
+            <div class="modal-brand">
+                <i data-lucide="tree-deciduous" style="color:var(--primary)"></i>
+                <h2>EcoTask</h2>
+            </div>
+            <p class="modal-subtitle" data-i18n="login_subtitle">Vui lòng chọn loại tài khoản</p>
+
+            <!-- Account Type Tabs -->
+            <div class="login-tabs">
+                <button class="login-tab active" id="tab-student" onclick="AppState.switchLoginTab('student')"
+                    data-i18n="tab_student">Học sinh</button>
+                <button class="login-tab" id="tab-teacher" onclick="AppState.switchLoginTab('teacher')"
+                    data-i18n="tab_teacher">Giáo viên</button>
+            </div>
+
+            <!-- Student Login -->
+            <div id="form-student" class="login-form">
+                <div class="form-group">
+                    <label data-i18n="label_school">Trường</label>
+                    <select id="stu-school" class="form-select">
+                        <option value="NGT">THCS Nguyễn Gia Thiều</option>
+                        <option value="TDN">THCS Trần Đại Nghĩa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_class">Lớp</label>
+                    <select id="stu-class" class="form-select">
+                        <option>9A1</option>
+                        <option>9A2</option>
+                        <option>8A1</option>
+                        <option>8A2</option>
+                        <option>7A1</option>
+                        <option>7A2</option>
+                        <option>6A1</option>
+                        <option>6A2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_name">Họ và tên</label>
+                    <input type="text" id="stu-name" class="form-input" placeholder="Nguyễn Văn A">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_password">Mật khẩu</label>
+                    <input type="password" id="stu-pass" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="AppState.loginAs('student')"
+                    data-i18n="btn_login">Đăng nhập</button>
+                <p class="demo-hint">Demo: nhập bất kỳ tên và mật khẩu rồi nhấn đăng nhập.</p>
+            </div>
+
+            <!-- Teacher Login -->
+            <div id="form-teacher" class="login-form hidden">
+                <div class="form-group">
+                    <label data-i18n="label_school">Trường</label>
+                    <select id="tch-school" class="form-select">
+                        <option value="NGT">THCS Nguyễn Gia Thiều</option>
+                        <option value="TDN">THCS Trần Đại Nghĩa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_teacher_id">Mã Giáo viên</label>
+                    <input type="text" id="tch-id" class="form-input" placeholder="GV001">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_name">Họ và tên</label>
+                    <input type="text" id="tch-name" class="form-input" placeholder="Nguyễn Thị B">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_password">Mật khẩu</label>
+                    <input type="password" id="tch-pass" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="AppState.loginAs('teacher')"
+                    data-i18n="btn_login">Đăng nhập</button>
+                <p class="demo-hint">Demo: tài khoản giáo viên có quyền xem bảng xếp hạng lớp.</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <main id="main-content">
@@ -114,6 +212,12 @@
                     <h3 data-i18n="feat_stats_title">Theo dõi Tác động</h3>
                     <p data-i18n="feat_stats_desc">Xem số liệu giảm thải CO2 thời gian thực.</p>
                 </div>
+                <div class="feature-card" onclick="AppState.navigateTo('rewards')">
+                    <div class="feature-icon" style="background:linear-gradient(135deg,#F59E0B,#EF4444);"><i
+                            data-lucide="gift"></i></div>
+                    <h3 data-i18n="feat_rewards_title">Đổi quà & Phần thưởng</h3>
+                    <p data-i18n="feat_rewards_desc">Dùng Green Token trao đổi quà từ trường.</p>
+                </div>
                 <div class="feature-card" onclick="AppState.navigateTo('wiki')">
                     <div class="feature-icon"><i data-lucide="book"></i></div>
                     <h3 data-i18n="feat_wiki_title">Wiki Tái chế</h3>
@@ -127,19 +231,29 @@
             <section class="scanner-section">
                 <div class="section-header">
                     <h2 data-i18n="scanner_title">AI Waste Scanner</h2>
-                    <p data-i18n="scanner_subtitle">Công nghệ nhận diện rác thải tiên tiến</p>
                 </div>
                 <div class="scanner-container">
                     <div class="scanner-interface">
                         <div class="upload-zone" id="upload-zone">
                             <input type="file" id="ai-upload" accept="image/*" hidden>
+                            <input type="file" id="ai-camera" accept="image/*" capture="environment" hidden>
                             <div class="upload-content">
                                 <i data-lucide="camera" class="upload-icon"></i>
                                 <h3 data-i18n="upload_title">Chụp ảnh hoặc tải lên</h3>
                                 <p data-i18n="upload_desc">AI sẽ tự động phân loại rác giúp bạn</p>
-                                <button class="btn btn-sm btn-primary"
-                                    onclick="document.getElementById('ai-upload').click()" data-i18n="btn_upload">Chọn
-                                    ảnh</button>
+                                <p class="scanner-tip"><i data-lucide="info" style="width:14px;height:14px"></i> <span
+                                        data-i18n="scanner_tip">Trên điện thoại: nhấn <b>Mở Camera</b> để chụp trực
+                                        tiếp.</span></p>
+                                <div class="scanner-btn-row">
+                                    <button class="btn btn-sm btn-primary"
+                                        onclick="document.getElementById('ai-camera').click()">
+                                        <i data-lucide="camera"></i> <span data-i18n="btn_camera">Mở Camera</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline"
+                                        onclick="document.getElementById('ai-upload').click()">
+                                        <i data-lucide="image"></i> <span data-i18n="btn_upload">Chọn từ máy</span>
+                                    </button>
+                                </div>
                             </div>
                             <div id="ai-preview" class="ai-preview hidden">
                                 <img id="preview-img" src="" alt="Preview">
@@ -185,7 +299,7 @@
             <section class="dashboard-section">
                 <div class="section-header">
                     <h2 data-i18n="dashboard_title">Thống kê Tác động</h2>
-                    <p data-i18n="dashboard_subtitle">Dữ liệu thực tế từ toàn trường</p>
+                    <p id="dashboard-subtitle-text" data-i18n="dashboard_subtitle">Dữ liệu thực tế từ toàn trường</p>
                 </div>
 
                 <!-- User Profile Context -->
@@ -204,10 +318,7 @@
                 <div class="stats-controls">
                     <!-- Scope Toggles -->
                     <div class="scope-toggles">
-                        <button class="scope-btn active" onclick="AppState.setStatsScope('personal')" id="btn-personal">
-                            <i data-lucide="user"></i> <span data-i18n="filter_personal">Cá nhân</span>
-                        </button>
-                        <button class="scope-btn" onclick="AppState.setStatsScope('class')" id="btn-class">
+                        <button class="scope-btn active" onclick="AppState.setStatsScope('class')" id="btn-class">
                             <i data-lucide="users"></i> <span data-i18n="filter_class">Lớp</span>
                         </button>
                         <button class="scope-btn" onclick="AppState.setStatsScope('grade')" id="btn-grade">
@@ -238,27 +349,31 @@
                     <div class="metric-card">
                         <div class="metric-icon leaf"><i data-lucide="leaf"></i></div>
                         <h3 id="stat-co2">24.5 kg</h3>
-                        <p>CO2 Reduced</p>
+                        <p data-i18n="stat_co2_label">CO2 Đã giảm</p>
                     </div>
                     <div class="metric-card">
                         <div class="metric-icon recycle"><i data-lucide="recycle"></i></div>
                         <h3 id="stat-waste">150 kg</h3>
-                        <p>Waste Recycled</p>
+                        <p data-i18n="stat_waste_label">Rác Tái chế</p>
                     </div>
                     <div class="metric-card">
                         <div class="metric-icon tree"><i data-lucide="tree-deciduous"></i></div>
                         <h3 id="stat-trees">12</h3>
-                        <p>Trees Saved</p>
+                        <p data-i18n="stat_trees_label">Cây Xanh Tương đương</p>
                     </div>
 
                     <!-- Charts -->
-                    <div class="chart-card wide">
+                    <div class="chart-card">
                         <h3 data-i18n="chart_waste_title">Phân loại rác thải</h3>
-                        <canvas id="wasteChart"></canvas>
+                        <div style="max-height:280px;position:relative">
+                            <canvas id="wasteChart"></canvas>
+                        </div>
                     </div>
                     <div class="chart-card">
                         <h3 data-i18n="chart_trend_title">Xu hướng hàng tháng</h3>
-                        <canvas id="trendChart"></canvas>
+                        <div style="max-height:280px;position:relative">
+                            <canvas id="trendChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -274,102 +389,260 @@
 
                 <!-- Toggle between Cards and Videos -->
                 <div class="wiki-tabs" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 24px;">
-                    <button class="filter-btn active" onclick="AppState.showWikiTab('guides')">Cẩm nang</button>
-                    <button class="filter-btn" onclick="AppState.showWikiTab('videos')">Video Hướng dẫn</button>
+                    <button class="filter-btn active" id="wiki-tab-guides" onclick="AppState.showWikiTab('guides')"
+                        data-i18n="tab_guides">Cẩm nang</button>
+                    <button class="filter-btn" id="wiki-tab-videos" onclick="AppState.showWikiTab('videos')"
+                        data-i18n="tab_videos">Video Hướng dẫn</button>
                 </div>
 
                 <!-- Wiki Grid -->
                 <div id="wiki-guides" class="wiki-grid">
+                    <!-- Plastic -->
                     <div class="wiki-card">
-                        <div class="wiki-icon-header plastic">
-                            <i data-lucide="coffee"></i>
-                        </div>
+                        <div class="wiki-icon-header plastic"><i data-lucide="coffee"></i></div>
                         <h3 data-i18n="wiki_plastic">Nhựa (Plastic)</h3>
-                        <p class="wiki-desc">Chai nước, hộp đựng thức ăn, ly nhựa.</p>
+                        <p class="wiki-desc" data-i18n="wiki_plastic_desc">Chai nước, hộp đựng thức ăn, ly nhựa, ống
+                            hút, hộp xốp.</p>
                         <div class="wiki-separator"></div>
                         <ul class="wiki-list">
                             <li class="do" data-i18n="wiki_plastic_do1">Rửa sạch và để ráo</li>
                             <li class="do" data-i18n="wiki_plastic_do2">Bóp bẹp để tiết kiệm diện tích</li>
-                            <li class="dont" data-i18n="wiki_plastic_dont">Không bỏ ống hút nhựa nhỏ</li>
+                            <li class="do" data-i18n="wiki_plastic_do3">Tách nắp chai, nhãn dán riêng</li>
+                            <li class="dont" data-i18n="wiki_plastic_dont">Không bỏ ống hút nhựa nhỏ, hộp xốp</li>
                         </ul>
+                        <div class="wiki-fact" data-i18n="wiki_plastic_fact">🌍 1 chai PET tái chế = tiết kiệm 60% năng
+                            lượng sản xuất</div>
                     </div>
+                    <!-- Paper -->
                     <div class="wiki-card">
-                        <div class="wiki-icon-header paper">
-                            <i data-lucide="file-text"></i>
-                        </div>
+                        <div class="wiki-icon-header paper"><i data-lucide="file-text"></i></div>
                         <h3 data-i18n="wiki_paper">Giấy (Paper)</h3>
-                        <p class="wiki-desc">Sách báo, thùng carton, giấy in.</p>
+                        <p class="wiki-desc" data-i18n="wiki_paper_desc">Sách báo, thùng carton, giấy in, hộp sữa.</p>
                         <div class="wiki-separator"></div>
                         <ul class="wiki-list">
                             <li class="do" data-i18n="wiki_paper_do1">Giữ giấy phẳng và khô ráo</li>
                             <li class="do" data-i18n="wiki_paper_do2">Tháo băng keo trên thùng carton</li>
-                            <li class="dont" data-i18n="wiki_paper_dont">Không tái chế giấy dính dầu mỡ</li>
+                            <li class="do" data-i18n="wiki_paper_do3">Xếp gọn thành chồng gọn gàng</li>
+                            <li class="dont" data-i18n="wiki_paper_dont">Không tái chế giấy dính dầu mỡ hoặc ướt</li>
                         </ul>
+                        <div class="wiki-fact" data-i18n="wiki_paper_fact">🌍 Tái chế 1 tấn giấy = cứu 17 cây xanh khỏi
+                            bị chặt</div>
                     </div>
+                    <!-- Metal -->
                     <div class="wiki-card">
-                        <div class="wiki-icon-header metal">
-                            <i data-lucide="disc"></i>
-                        </div>
+                        <div class="wiki-icon-header metal"><i data-lucide="disc"></i></div>
                         <h3 data-i18n="wiki_metal">Kim loại (Metal)</h3>
-                        <p class="wiki-desc">Lon nước ngọt, hộp thực phẩm, nắp chai.</p>
+                        <p class="wiki-desc" data-i18n="wiki_metal_desc">Lon nước ngọt, hộp thực phẩm, nắp chai, dao cũ.
+                        </p>
                         <div class="wiki-separator"></div>
                         <ul class="wiki-list">
                             <li class="do" data-i18n="wiki_metal_do1">Đổ hết chất lỏng bên trong</li>
                             <li class="do" data-i18n="wiki_metal_do2">Rửa sạch thực phẩm thừa</li>
-                            <li class="dont" data-i18n="wiki_metal_dont">Không tái chế vỏ bình xịt hóa chất</li>
+                            <li class="do" data-i18n="wiki_metal_do3">Bóp dẹp lon nhôm nếu có thể</li>
+                            <li class="dont" data-i18n="wiki_metal_dont">Không bỏ vỏ bình xịt hóa chất</li>
                         </ul>
+                        <div class="wiki-fact" data-i18n="wiki_metal_fact">🌍 Tái chế nhôm tiết kiệm 95% năng lượng so
+                            với sản xuất mới</div>
                     </div>
+                    <!-- Glass -->
                     <div class="wiki-card">
-                        <div class="wiki-icon-header glass">
-                            <i data-lucide="wine"></i>
-                        </div>
+                        <div class="wiki-icon-header glass"><i data-lucide="wine"></i></div>
                         <h3 data-i18n="wiki_glass">Thủy tinh (Glass)</h3>
-                        <p class="wiki-desc">Chai lọ thủy tinh các loại.</p>
+                        <p class="wiki-desc" data-i18n="wiki_glass_desc">Chai lọ thủy tinh, lọ jam, hủ gia vị.</p>
                         <div class="wiki-separator"></div>
                         <ul class="wiki-list">
-                            <li class="do">Rửa sạch và tháo nắp</li>
-                            <li class="do">Phân loại theo màu nếu có thể</li>
-                            <li class="dont">Không bỏ gương vỡ, bóng đèn</li>
+                            <li class="do" data-i18n="wiki_glass_do1">Rửa sạch, tháo nắp</li>
+                            <li class="do" data-i18n="wiki_glass_do2">Phân loại theo màu (trong, xanh, nâu)</li>
+                            <li class="do" data-i18n="wiki_glass_do3">Bọc kín nếu vỡ</li>
+                            <li class="dont" data-i18n="wiki_glass_dont">Không bỏ gương vỡ, bóng đèn, khóa cửa</li>
                         </ul>
+                        <div class="wiki-fact" data-i18n="wiki_glass_fact">🌍 Thủy tinh có thể tái chế 100% vô số lần mà
+                            không giảm chất lượng</div>
+                    </div>
+                    <!-- E-Waste -->
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header ewaste"><i data-lucide="cpu"></i></div>
+                        <h3 data-i18n="wiki_ewaste">Rác điện tử (E-Waste)</h3>
+                        <p class="wiki-desc" data-i18n="wiki_ewaste_desc">Pin, điện thoại cũ, dây sạc hỏng, laptop cũ.
+                        </p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do" data-i18n="wiki_ewaste_do1">Thu gom vào hộp riêng, dán nhãn 'E-Waste'</li>
+                            <li class="do" data-i18n="wiki_ewaste_do2">Mang đến điểm thu hồi (đặt tại trường)</li>
+                            <li class="do" data-i18n="wiki_ewaste_do3">Xóa dữ liệu cá nhân trước khi nộp</li>
+                            <li class="dont" data-i18n="wiki_ewaste_dont">Không đập vỡ pin, không đốt rác điện tử</li>
+                        </ul>
+                        <div class="wiki-fact warning" data-i18n="wiki_ewaste_fact">⚠️ Rác điện tử chứa chì, thủy ngân
+                            gây hại đất và nước nghiêm trọng</div>
+                    </div>
+                    <!-- Organic -->
+                    <div class="wiki-card">
+                        <div class="wiki-icon-header organic"><i data-lucide="apple"></i></div>
+                        <h3 data-i18n="wiki_organic">Rác hữu cơ (Organic)</h3>
+                        <p class="wiki-desc" data-i18n="wiki_organic_desc">Vỏ trái cây, rau củ, bã cà phê, cơm thừa.</p>
+                        <div class="wiki-separator"></div>
+                        <ul class="wiki-list">
+                            <li class="do" data-i18n="wiki_organic_do1">Ủ compost làm phân bón cây</li>
+                            <li class="do" data-i18n="wiki_organic_do2">Để ráo nước trước khi ủ</li>
+                            <li class="do" data-i18n="wiki_organic_do3">Chế biến thành khí biôga (biogas)</li>
+                            <li class="dont" data-i18n="wiki_organic_dont">Không đựng trong túi nilon khi ủ</li>
+                        </ul>
+                        <div class="wiki-fact" data-i18n="wiki_organic_fact">🌍 Rác hữu cơ chiếm 50-70% lượng rác hộ gia
+                            đình — ủ compost giúp giảm rác bãi</div>
                     </div>
                 </div>
 
+
+                <!-- Video Grid (Hidden by default) -->
                 <!-- Video Grid (Hidden by default) -->
                 <div id="wiki-videos" class="wiki-grid hidden">
-                    <!-- Video 1 -->
+                    <!-- Video 1: General recycling guide VN -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/VRmBVWB7X_E"
+                            title="Hướng dẫn phân loại rác thải tại nguồn" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Hướng dẫn phân loại rác thải tại nguồn</h3>
+                    </div>
+                    <!-- Video 2: Plastic recycling VN -->
                     <div class="wiki-card video-card">
                         <iframe width="100%" height="200" src="https://www.youtube.com/embed/Vir8f286eQI"
-                            title="How to Recycle Plastic" frameborder="0"
+                            title="Tái chế rác nhựa" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
                         <h3>Cách phân loại rác nhựa đúng cách</h3>
-                        <p class="wiki-desc">Hướng dẫn chi tiết quy trình xử lý chai nhựa trước khi bỏ vào thùng tái
-                            chế.</p>
                     </div>
-                    <!-- Video 2 -->
+                    <!-- Video 3: Compost / organic -->
                     <div class="wiki-card video-card">
-                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/VlRVPKeyhMw"
-                            title="Recycling Paper" frameborder="0"
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/2Pqz1JYSzRs"
+                            title="Ủ phân Compost" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
-                        <h3>Tái chế giấy: Nên và Không nên</h3>
-                        <p class="wiki-desc">Những loại giấy nào tái chế được và loại nào phải bỏ rác thải sinh hoạt?
-                        </p>
+                        <h3>Hướng dẫn ủ phân Compost từ rác hữu cơ</h3>
                     </div>
-                    <!-- Video 3 -->
+                    <!-- Video 4: E-Waste awareness -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/sW_7i6T_H78"
+                            title="Rác điện tử E-Waste" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Hiểm họa từ rác điện tử (E-Waste)</h3>
+                    </div>
+                    <!-- Video 5: Reuse & upcycle ideas for students -->
                     <div class="wiki-card video-card">
                         <iframe width="100%" height="200" src="https://www.youtube.com/embed/Ba07bBAi8O4"
-                            title="Metal Recycling" frameborder="0"
+                            title="Tái sử dụng sáng tạo" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
-                        <h3>Quy trình tái chế kim loại</h3>
-                        <p class="wiki-desc">Khám phá hành trình tái sinh của một chiếc lon nhôm.</p>
+                        <h3>Ý tưởng tái sử dụng đồ vật cũ sáng tạo</h3>
+                    </div>
+                    <!-- Video 6: Zero-waste school -->
+                    <div class="wiki-card video-card">
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/4KBsz8uqQ3k"
+                            title="Trường học không rác thải" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; margin-bottom: 12px;"></iframe>
+                        <h3>Xây dựng trường học không rác thải</h3>
                     </div>
                 </div>
             </section>
         </div>
 
+        <!-- ============ PAGE: REWARDS ============ -->
+        <div id="page-rewards" class="page-view hidden">
+            <section class="wiki-section">
+                <div class="section-header">
+                    <h2 data-i18n="rewards_title">Đổi quà &amp; Phần thưởng</h2>
+                    <p data-i18n="rewards_subtitle">Dùng Green Token kiếm được để đổi lấy ưu đãi từ nhà trường</p>
+                </div>
+
+                <!-- Token Balance -->
+                <div class="token-banner">
+                    <div class="token-balance">
+                        <i data-lucide="leaf"></i>
+                        <div>
+                            <div class="token-amount" id="rewards-token-count">0</div>
+                            <div class="token-label" data-i18n="token_label">Green Tokens của bạn</div>
+                        </div>
+                    </div>
+                    <div class="token-tip">
+                        <p data-i18n="token_earn_tip">💡 Quét rác + xác nhận tái chế để kiếm token!</p>
+                    </div>
+                </div>
+
+                <!-- Reward History (if logged in) -->
+                <div id="rewards-history-section" class="hidden" style="margin-bottom:24px">
+                    <h3 style="margin-bottom:12px" data-i18n="rewards_history">Lịch sử đổi quà</h3>
+                    <div id="rewards-history-list" class="rewards-history-list"></div>
+                </div>
+
+                <!-- Rewards Grid: School Privileges -->
+                <div class="wiki-grid" id="rewards-grid">
+                    <!-- Privilege 1: Miễn trực nhật -->
+                    <div class="reward-card">
+                        <div class="reward-img">🧹</div>
+                        <h3>Miễn trực nhật 1 tuần</h3>
+                        <p>Được miễn nhiệm vụ trực nhật lớp trong 1 tuần học</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 50 tokens</div>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="AppState.redeemReward(1,'Miễn trực nhật 1 tuần',50)" data-i18n="btn_redeem">Đổi
+                            quà</button>
+                    </div>
+                    <!-- Privilege 2: Ra về sớm -->
+                    <div class="reward-card">
+                        <div class="reward-img">🚶</div>
+                        <h3>Ra về sớm 15 phút</h3>
+                        <p>Được phép ra về trước 15 phút vào 1 buổi học tự chọn</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 80 tokens</div>
+                        <button class="btn btn-sm btn-primary" onclick="AppState.redeemReward(2,'Ra về sớm 15 phút',80)"
+                            data-i18n="btn_redeem">Đổi quà</button>
+                    </div>
+                    <!-- Privilege 3: Thư viện tự do -->
+                    <div class="reward-card">
+                        <div class="reward-img">📚</div>
+                        <h3>Lên thư viện tự do</h3>
+                        <p>Được phép lên thư viện đọc sách tự do trong 1 tiết học</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 100 tokens</div>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="AppState.redeemReward(3,'Lên thư viện tự do',100)" data-i18n="btn_redeem">Đổi
+                            quà</button>
+                    </div>
+                    <!-- Privilege 4: Điểm thưởng -->
+                    <div class="reward-card">
+                        <div class="reward-img">⭐</div>
+                        <h3>Điểm thưởng môn KHTN</h3>
+                        <p>Nhận +1 điểm thưởng vào cột điểm kiểm tra miệng môn KHTN</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 150 tokens</div>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="AppState.redeemReward(4,'Điểm thưởng môn KHTN',150)" data-i18n="btn_redeem">Đổi
+                            quà</button>
+                    </div>
+                    <!-- Privilege 5: Eco Ambassador -->
+                    <div class="reward-card">
+                        <div class="reward-img">🏅</div>
+                        <h3>Huy hiệu "Đại sứ Eco"</h3>
+                        <p>Được công nhận là Đại sứ Môi trường của lớp, nhận huy hiệu và giấy khen</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 300 tokens</div>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="AppState.redeemReward(5,'Huy hiệu Đại sứ Eco',300)" data-i18n="btn_redeem">Đổi
+                            quà</button>
+                    </div>
+                    <!-- Privilege 6: Field Trip Leader -->
+                    <div class="reward-card">
+                        <div class="reward-img">🌿</div>
+                        <h3>Trưởng nhóm tham quan</h3>
+                        <p>Được chọn làm Trưởng nhóm trong chuyến tham quan sinh thái của trường</p>
+                        <div class="reward-cost"><i data-lucide="leaf"></i> 500 tokens</div>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="AppState.redeemReward(6,'Trưởng nhóm tham quan sinh thái',500)"
+                            data-i18n="btn_redeem">Đổi quà</button>
+                    </div>
+                </div>
+            </section>
+
+
     </main>
+
 
     <!-- Footer -->
     <footer class="footer">

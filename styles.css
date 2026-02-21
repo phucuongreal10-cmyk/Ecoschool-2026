@@ -705,3 +705,417 @@ body {
         grid-column: span 1;
     }
 }
+
+/* ===================== LOGIN MODAL ===================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-box {
+    background: var(--bg-white);
+    border-radius: 24px;
+    padding: 40px 32px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--bg-secondary);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.modal-brand h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.modal-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.login-tabs {
+    display: flex;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 24px;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.25s;
+}
+
+.login-tab.active {
+    background: var(--bg-white);
+    color: var(--primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.login-form.hidden {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-input {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.btn-block {
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.demo-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ===================== NAV USER AREA ===================== */
+.nav-user-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.nav-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+}
+
+.nav-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.nav-username {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.nav-tokens {
+    font-size: 0.75rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ===================== SCANNER TIP ===================== */
+.scanner-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.08);
+    color: var(--primary);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin: 4px 0 8px;
+}
+
+/* ===================== REWARDS PAGE ===================== */
+.token-banner {
+    background: linear-gradient(135deg, var(--primary) 0%, #059669 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 24px 32px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+}
+
+.token-balance {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.token-balance svg {
+    width: 40px;
+    height: 40px;
+    opacity: 0.9;
+}
+
+.token-amount {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.token-label {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.token-tip {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    max-width: 250px;
+    text-align: right;
+}
+
+.reward-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.reward-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.reward-img {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.reward-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.reward-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.reward-cost {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.reward-cost svg {
+    width: 14px;
+    height: 14px;
+}
+
+.rewards-login-prompt {
+    text-align: center;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.rewards-login-prompt.hidden {
+    display: none;
+}
+
+.rewards-login-prompt svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+}
+
+/* ===================== HISTORY LIST ===================== */
+.rewards-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.history-item svg {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.history-item span:nth-child(2) {
+    flex: 1;
+    font-weight: 600;
+}
+
+.history-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.history-cost {
+    font-weight: 700;
+    color: #EF4444;
+    font-size: 0.9rem;
+}
+
+/* ===================== ROUND 3 UPDATES ===================== */
+.scanner-btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+    width: 100%;
+}
+
+.scanner-btn-row .btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+}
+
+.wiki-fact {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    line-height: 1.4;
+    border-left: 4px solid var(--primary);
+}
+
+.wiki-fact.warning {
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+    border-left-color: #EF4444;
+}
+
+.wiki-icon-header.ewaste {
+    background: #F3F4F6;
+    color: #4B5563;
+}
+
+.wiki-icon-header.organic {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.form-select {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
