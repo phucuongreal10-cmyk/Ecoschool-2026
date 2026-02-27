@@ -1,28 +1,39 @@
-# EcoTask - Paperless Homework App
+# 🌿 EcoTask - ICIA 2026 Titanium Edition
 
-EcoTask is a web application designed to promote environmental sustainability in schools by reducing paper usage and gamifying eco-friendly activities.
+**EcoTask** is a professional, AI-powered recycling management system designed for the school environment. It combines cutting-edge AI waste classification with a gamified reward system to encourage sustainable habits among students.
 
-## Features
+## 🚀 Key Features
 
-- **Role-Based Access**: Separate dashboards for Students and Teachers.
-- **Paperless Homework**: Simulated digital assignment submission.
-- **Evidence Verification**: Students upload photos of eco-activities; Teachers review and approve them.
-- **Token Economy**: Students earn "Green Tokens" for approved activities.
-- **Rewards**: Redeem tokens for real-world rewards (school supplies, vouchers).
-- **Video Guides**: Educational content on recycling and sustainability.
-- **Impact Tracking**: Visual statistics on trees saved and CO2 reduced.
+### 👤 Role-Based Experience
+- **Students**: Scan waste, earn Green Tokens, and redeem rewards from the school canteen or shop.
+- **Teachers**: Moderate evidence submissions, manage global school statistics, and track environmental impact.
 
-## Tech Stack
+### 🤖 AI Waste Scanner
+- **Instant Classification**: 3-second identification of Plastic, Paper, Metal, and Organic waste.
+- **Proof-Capture Workflow**: Mandatory proof step ensures high-quality recycling practices.
+- **Pulsing Focus UI**: A modern, non-intrusive interface for high-precision scanning.
 
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Styling**: Custom CSS with CSS Variables for theming (Dark/Light mode)
-- **Icons**: Lucide Icons
-- **Data Persistence**: LocalStorage (Browser-based)
+### 📊 Real-Time Dashboard
+- **School-Wide Impact**: Track CO2 reduction, total waste recycled, and tree-equivalence in real-time.
+- **Class-Level Stats**: Foster healthy competition by comparing impact across grades and classes.
 
-## How to Run
+### 📔 Recycling Wiki & TV
+- **Comprehensive Guides**: Detailed instructions for 8 different waste categories.
+- **Video Library**: Curated instructional videos on how to recycle effectively at school.
 
-Simply open `index.html` in any modern web browser. 
+## 🛠 Technology Stack
+- **Frontend**: Vanilla HTML5, CSS3 (Glassmorphism & Organic Themes), JavaScript (ES6+).
+- **Icons**: Lucide Icons.
+- **Charts**: Chart.js.
+- **AI Simulation**: Pattern-based recognition and simulated camera processing.
 
-## Deployment
+## 📦 Installation & Setup
+1. Clone the repository to your local machine.
+2. Open `index.html` in any modern web browser.
+3. For the best experience, use a mobile-view or responsive simulator in Chrome DevTools.
 
-To deploy this site online, you can use services like Netlify or Vercel. See `DEPLOY_GUIDE.md` for detailed instructions.
+## 🎓 About ICIA 2026
+This project is part of the **ICIA 2026 Innovation Challenge**, aimed at creating tech-driven solutions for a greener future.
+
+---
+Built with ❤️ for a Green Future.
