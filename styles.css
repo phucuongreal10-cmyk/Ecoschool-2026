@@ -1,7 +1,7 @@
 /* ============================================
 
 
-   EcoTask - ICIA Titanium Styles
+   EcoSchool - ICIA Titanium Styles
 
 
    ============================================ */
@@ -989,14 +989,10 @@ body {
 
 
 .feature-card {
-
-
-    background: var(--bg-white);
-
-
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 24px;
-
-
     border-radius: var(--radius-lg);
 
 
@@ -1019,14 +1015,10 @@ body {
 
 
 .feature-card:hover {
-
-
-    transform: translateY(-5px);
-
-
-    border-color: var(--primary);
-
-
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.15), 0 0 15px rgba(16, 185, 129, 0.2) inset;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 
@@ -4651,10 +4643,13 @@ body {
     width: 100%;
 
 
-    height: 250px;
+    background: #000;
 
 
-    background: #1a1a1a;
+    border-radius: 12px 12px 0 0;
+
+
+    overflow: hidden;
 
 
 }
@@ -4669,10 +4664,40 @@ body {
     width: 100%;
 
 
-    height: 100%;
+    max-height: 250px;
 
 
     object-fit: contain;
+
+
+    display: block;
+
+
+}
+
+
+
+
+
+.mod-avatar {
+
+
+    width: 48px;
+
+
+    height: 48px;
+
+
+    min-width: 48px;
+
+
+    border-radius: 50%;
+
+
+    object-fit: cover;
+
+
+    border: 2px solid var(--border-color);
 
 
 }
@@ -4788,25 +4813,12 @@ body {
 
 
 
-
 .history-item-mini {
-
-
     background: var(--bg-secondary);
-
-
     padding: 12px;
-
-
     border-radius: 16px;
-
-
-    display: flex;
-
-
     align-items: center;
-
-
+    display: flex;
     gap: 12px;
 
 
@@ -5077,4 +5089,92 @@ body {
 
     display: none !important;
 
+}
+
+/* Teacher Tabs */
+.teacher-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.teacher-tab {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.teacher-tab:hover {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.teacher-tab.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* ==========================================
+   Toast Notification Styling
+   ========================================== */
+.toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--card-bg);
+    color: var(--text-main);
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-left: 5px solid var(--primary);
+    pointer-events: auto;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast.error {
+    border-left-color: #EF4444;
+    /* Tailwind Red */
+}
+
+.toast-icon {
+    width: 22px;
+    height: 22px;
+}
+
+.toast.error .toast-icon {
+    color: #EF4444;
+}
+
+.toast:not(.error) .toast-icon {
+    color: var(--primary);
 }

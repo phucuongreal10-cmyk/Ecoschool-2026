@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi" data-theme="dark" translate="no">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTask - ICIA Titanium</title>
+    <meta name="google" content="notranslate">
+    <title>EcoSchool - ICIA Titanium</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +18,7 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1.03">
 </head>
 
 <body>
@@ -31,7 +32,7 @@
                     <div class="logo-wrapper">
                         <i data-lucide="tree-deciduous"></i>
                     </div>
-                    <h1 class="landing-title">EcoTask <span>Titanium</span></h1>
+                    <h1 class="landing-title">EcoSchool <span>Titanium</span></h1>
                     <p class="landing-subtitle" data-i18n="landing_subtitle">Hệ thống Quản lý Tái chế & Học đường Xanh
                     </p>
                 </div>
@@ -113,7 +114,7 @@
         <nav class="navbar">
             <div class="nav-brand" onclick="AppState.navigateTo('home')">
                 <i data-lucide="tree-deciduous"></i>
-                <span>EcoTask</span>
+                <span>EcoSchool</span>
                 <span class="badge">Titanium</span>
             </div>
 
@@ -339,6 +340,27 @@
                                     <p class="confidence"><span data-i18n="confidence">Độ chính xác:</span> <span
                                             id="result-confidence">98%</span></p>
                                     <p class="disposal-guide" id="result-guide"></p>
+                                    <p class="educational-fact" id="result-fact"
+                                        style="margin-top: 10px; font-size: 0.8rem; padding: 10px; background: rgba(var(--primary-rgb), 0.1); color: var(--text-dark); border-left: 3px solid var(--primary); border-radius: 4px; line-height: 1.4;">
+                                    </p>
+
+                                    <!-- Dynamic AI Insight -->
+                                    <p id="result-ai-insight" class="hidden"
+                                        style="margin-top: 15px; font-size: 0.9rem; padding: 12px; background: rgba(16, 185, 129, 0.1); color: var(--primary); border: 1px dashed var(--primary); border-radius: 8px; line-height: 1.4; text-align: center; font-weight: 500;">
+                                    </p>
+
+                                    <!-- Bin Recommendation UI -->
+                                    <div id="result-bin-recommendation" class="hidden"
+                                        style="margin-top: 15px; padding: 15px; border: 2px dashed var(--primary); border-radius: 12px; background: rgba(var(--primary-rgb), 0.05); text-align: center;">
+                                        <h4 data-i18n="bin_rec_title"
+                                            style="margin-bottom: 10px; font-size: 1rem; color: var(--text-main);">🗑️
+                                            Nên bỏ vào thùng rác nào?</h4>
+                                        <img id="result-bin-img" src="" alt="Bin Recommendation"
+                                            style="height: 140px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); margin: 0 auto;">
+                                        <p id="result-bin-name"
+                                            style="font-weight: bold; font-size: 1.1rem; color: var(--primary); margin-top: 10px;">
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -363,9 +385,7 @@
                                         style="font-size: 0.8rem; padding: 10px; color: var(--primary); font-weight: bold;">
                                         Mọi thứ đã sẵn sàng!</p>
                                 </div>
-                            </div>
-
-                            <div class="scanner-actions" id="scanner-confirm-step">
+                            </div>                            <div class="scanner-actions hidden" id="scanner-confirm-step">
                                 <button class="btn btn-primary btn-block" onclick="AppState.confirmResult()">
                                     <i data-lucide="check"></i> <span data-i18n="btn_confirm">Xác nhận & Chụp minh
                                         chứng</span>
@@ -403,7 +423,7 @@
 
                     <!-- Sub-page: Moderation -->
                     <div id="teacher-moderation" class="teacher-tab-content">
-                        <div id="moderation-list" class="moderation-list">
+                        <div id="moderation-grid" class="moderation-list">
                             <!-- Pending items will be rendered here -->
                             <div class="empty-state">
                                 <i data-lucide="check-circle-2"></i>
@@ -415,21 +435,46 @@
                     <!-- Sub-page: Stats Editor -->
                     <div id="teacher-stats-edit" class="teacher-tab-content hidden">
                         <div class="stats-edit-card glass-card">
-                            <h3 data-i18n="stats_update_success">Cập nhật số liệu toàn trường</h3>
+                            <h3 data-i18n="stats_update_title">Cập nhật số liệu toàn trường</h3>
                             <div class="form-group">
-                                <label>Lượng CO2 đã giảm (kg)</label>
+                                <label data-i18n="stats_label_co2">Lượng CO2 đã giảm (kg)</label>
                                 <input type="number" id="edit-co2" class="form-input" placeholder="24.5">
                             </div>
                             <div class="form-group">
-                                <label>Tổng rác tái chế (kg)</label>
+                                <label data-i18n="stats_label_waste">Tổng rác tái chế (kg)</label>
                                 <input type="number" id="edit-waste" class="form-input" placeholder="150">
                             </div>
                             <div class="form-group">
-                                <label>Số cây xanh tương đương</label>
+                                <label data-i18n="stats_label_trees">Số cây xanh tương đương</label>
                                 <input type="number" id="edit-trees" class="form-input" placeholder="12">
                             </div>
-                            <button class="btn btn-primary btn-block" onclick="AppState.saveGlobalStats()">Cập nhật
-                                ngay</button>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn btn-primary" style="flex: 2" onclick="AppState.saveGlobalStats()">
+                                    <i data-lucide="save"></i> <span data-i18n="btn_update_now">Cập nhật ngay</span>
+                                </button>
+                                <button class="btn btn-outline"
+                                    style="flex: 1; border-color: var(--error); color: var(--error);"
+                                    onclick="AppState.resetGlobalStats()">
+                                    <i data-lucide="alert-triangle"></i> <span data-i18n="btn_reset_stats">Reset</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Waste Trend Predictor (Regression) -->
+                        <div class="stats-edit-card glass-card" style="margin-top: 20px;">
+                            <h3
+                                style="margin-bottom: 15px; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="trending-up"></i> <span data-i18n="ai_projection_title">AI Dự Phóng (30
+                                    Ngày Tới)</span>
+                            </h3>
+                            <p id="trend-summary-text" data-i18n="ai_projection_desc"
+                                style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
+                                Thu thập dữ liệu nộp minh chứng để dự đoán xu hướng...
+                            </p>
+                            <div
+                                style="background: var(--bg-primary); border-radius: 12px; padding: 15px; height: 250px;">
+                                <canvas id="teacherTrendChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -493,7 +538,8 @@
                         </div>
                         <div class="chart-card">
                             <h3 data-i18n="chart_trend_title">Xu hướng hàng tháng</h3>
-                            <div style="max-height:280px;position:relative"><canvas id="trendChart"></canvas></div>
+                            <div style="max-height:280px;position:relative"><canvas id="studentTrendChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -583,8 +629,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Hướng dẫn phân loại rác tại nguồn</h3>
-                                <p>Cẩm nang cơ bản cho học sinh ICIA.</p>
+                                <h3 data-i18n="vid_title_1">Hướng dẫn phân loại rác tại nguồn</h3>
+                                <p data-i18n="vid_desc_1">Cẩm nang cơ bản cho học sinh ICIA.</p>
                             </div>
                         </div>
                         <div class="video-card">
@@ -593,8 +639,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Quy trình tái chế nhựa</h3>
-                                <p>Tìm hiểu xem rác nhựa đi đâu sau khi bỏ thùng.</p>
+                                <h3 data-i18n="vid_title_2">Quy trình tái chế nhựa</h3>
+                                <p data-i18n="vid_desc_2">Tìm hiểu xem rác nhựa đi đâu sau khi bỏ thùng.</p>
                             </div>
                         </div>
                         <div class="video-card">
@@ -603,8 +649,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Làm phân compost tại trường</h3>
-                                <p>Cách tận dụng rác hữu cơ từ canteen.</p>
+                                <h3 data-i18n="vid_title_3">Làm phân compost tại trường</h3>
+                                <p data-i18n="vid_desc_3">Cách tận dụng rác hữu cơ từ canteen.</p>
                             </div>
                         </div>
                         <!-- New Videos Added -->
@@ -615,8 +661,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Làm gạch sinh thái (Ecobrick) từ rác nhựa</h3>
-                                <p>Tái chế túi nilon và vỏ chai nhựa dùng một lần.</p>
+                                <h3 data-i18n="vid_title_4">Làm gạch sinh thái (Ecobrick) từ rác nhựa</h3>
+                                <p data-i18n="vid_desc_4">Tái chế túi nilon và vỏ chai nhựa dùng một lần.</p>
                             </div>
                         </div>
                         <div class="video-card">
@@ -626,8 +672,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Làm mới quần áo cũ (Upcycle)</h3>
-                                <p>Đừng vứt quần áo cũ, hãy biến chúng thành túi tote.</p>
+                                <h3 data-i18n="vid_title_5">Làm mới quần áo cũ (Upcycle)</h3>
+                                <p data-i18n="vid_desc_5">Đừng vứt quần áo cũ, hãy biến chúng thành túi tote.</p>
                             </div>
                         </div>
                         <div class="video-card">
@@ -637,8 +683,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Xử lý pin và đồ điện tử cũ an toàn</h3>
-                                <p>Những lưu ý quan trọng để bảo vệ môi trường.</p>
+                                <h3 data-i18n="vid_title_6">Xử lý pin và đồ điện tử cũ an toàn</h3>
+                                <p data-i18n="vid_desc_6">Những lưu ý quan trọng để bảo vệ môi trường.</p>
                             </div>
                         </div>
                         <div class="video-card">
@@ -648,8 +694,8 @@
                                 <button class="play-btn"><i data-lucide="play"></i></button>
                             </div>
                             <div class="video-info">
-                                <h3>Tái chế các loại rác thải nhựa tại nhà</h3>
-                                <p>Hướng dẫn chi tiết biến rác thành vật dụng hữu ích.</p>
+                                <h3 data-i18n="vid_title_7">Tái chế các loại rác thải nhựa tại nhà</h3>
+                                <p data-i18n="vid_desc_7">Hướng dẫn chi tiết biến rác thành vật dụng hữu ích.</p>
                             </div>
                         </div>
                     </div>
@@ -718,7 +764,7 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <i data-lucide="tree-deciduous"></i>
-                    <span>EcoTask Titanium</span>
+                    <span>EcoSchool Titanium</span>
                     <p>Built with AI for a Green Future</p>
                 </div>
             </div>
@@ -729,9 +775,14 @@
     </div>
 
 
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="app.js?v=2.9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"></script>
+    <script src="app.js?v=2.31"></script>
     <script>
         lucide.createIcons();
     </script>

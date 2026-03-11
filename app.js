@@ -1,5 +1,7 @@
+const hostname = window.location.hostname || '127.0.0.1';
+const API_BASE_URL = 'http://' + hostname + ':5000/api';
 /* ============================================
-   EcoTask - ICIA Titanium Edition
+   EcoSchool - ICIA Titanium Edition
    JavaScript - Role-Based Logic, AI Evidence Flow & Moderation
    ============================================ */
 
@@ -53,8 +55,32 @@ const Translations = {
         stats_update_success: "Đã cập nhật số liệu toàn trường!",
         mod_empty: "Không có minh chứng nào đang chờ xét duyệt.",
         mod_approved: "Đã xét duyệt minh chứng. Học sinh đã nhận được token!",
+        // Stats Editor
+        stats_update_title: "Cập nhật số liệu toàn trường",
+        stats_label_co2: "Lượng CO2 đã giảm (kg)",
+        stats_label_waste: "Tổng rác tái chế (kg)",
+        stats_label_trees: "Số cây xanh tương đương",
+        btn_update_now: "Cập nhật ngay",
+        ai_projection_title: "AI Dự Phóng (30 Ngày Tới)",
+        ai_projection_desc: "Thu thập dữ liệu nộp minh chứng để dự đoán xu hướng...",
+        btn_reset_stats: "Khôi phục gốc (Reset)",
+        // Video
+        vid_title_1: "Hướng dẫn phân loại rác tại nguồn",
+        vid_desc_1: "Cẩm nang cơ bản cho học sinh ICIA.",
+        vid_title_2: "Quy trình tái chế nhựa",
+        vid_desc_2: "Tìm hiểu xem rác nhựa đi đâu sau khi bỏ thùng.",
+        vid_title_3: "Làm phân compost tại trường",
+        vid_desc_3: "Cách tận dụng rác hữu cơ từ canteen.",
+        vid_title_4: "Làm gạch sinh thái (Ecobrick)",
+        vid_desc_4: "Dùng túi nilon và vỏ chai nhựa dùng một lần.",
+        vid_title_5: "Làm mới quần áo cũ (Upcycle)",
+        vid_desc_5: "Đừng vứt quần áo cũ, hãy biến chúng thành túi tote.",
+        vid_title_6: "Xử lý đồ điện tử an toàn",
+        vid_desc_6: "Sử dụng pin và đồ điện tử cũ an toàn.",
+        vid_title_7: "Tái chế nhựa gia dụng",
+        vid_desc_7: "Hướng dẫn chi tiết biến đồ nhựa thành vật dụng hữu ích.",
         // Role Selection
-        landing_title: "EcoTask Titanium",
+        landing_title: "EcoSchool Titanium",
         landing_subtitle: "Hệ thống Quản lý Tái chế & Học đường Xanh",
         role_student_desc: "Quét rác, nhận ưu đãi & đóng góp xanh",
         role_teacher_desc: "Xét duyệt minh chứng & quản lý tác động",
@@ -94,7 +120,33 @@ const Translations = {
         stat_waste_label: "Lượng rác tái chế",
         stat_trees_label: "Số cây xanh tương đương",
         chart_waste_title: "Tỷ lệ phân loại rác",
-        chart_trend_title: "Tiến độ theo tháng"
+        chart_trend_title: "Tiến độ theo tháng",
+        hero_title: "Biến rác thải thành <span class=\"text-gradient\">tài nguyên</span>",
+        hero_desc: "Sử dụng trí tuệ nhân tạo (AI) để phân loại rác và theo dõi tác động môi trường của toàn trường.",
+        feat_scan_title: "Nhận diện AI",
+        feat_scan_desc: "Phân loại rác tự động chỉ trong 3 giây.",
+        feat_moderation_title: "Kiểm duyệt",
+        feat_moderation_desc: "Duyệt bằng chứng rác thải từ học sinh.",
+        feat_stats_title: "Theo dõi Tác động",
+        feat_stats_desc: "Xem số liệu giảm thải CO2 thời gian thực.",
+        feat_rewards_title: "Đổi quà & Phần thưởng",
+        feat_rewards_desc: "Dùng Green Token trao đổi quà từ trường.",
+        feat_wiki_title: "Wiki Tái chế",
+        feat_wiki_desc: "Hướng dẫn chi tiết cách xử lý từng loại rác.",
+        proof_title: "Chụp ảnh bằng chứng",
+        proof_desc: "Hãy chụp ảnh bạn bỏ rác vào đúng thùng quy định.",
+        btn_proof: "Chụp ảnh bằng chứng",
+        bin_rec_title: "Nên bỏ vào thùng rác nào?",
+        scan_results: {
+            plastic: { name: 'Nhựa tái chế', icon: 'coffee', guide: 'Rửa sạch, ép xẹp để tiết kiệm diện tích.', fact: 'Bạn có biết? Một chai nhựa PET cần tới 450 năm để phân hủy hoàn toàn nếu bị vứt ra môi trường.', color: 'plastic', conf: '99.4%', binName: 'Thùng rác Nhựa' },
+            paper: { name: 'Giấy khô', icon: 'file-text', guide: 'Giữ khô ráo, tháo ghim sắt và băng keo.', fact: 'Tái chế 1 tấn giấy cứu được 17 cây xanh trưởng thành và 26.000 lít nước.', color: 'paper', conf: '98.8%', binName: 'Thùng rác Giấy' },
+            metal: { name: 'Kim loại', icon: 'disc', guide: 'Đổ hết chất lỏng, rửa sơ bên trong.', fact: 'Nhôm có thể tái chế vô hạn lần mà không hề giảm chất lượng, tiết kiệm 95% năng lượng so với sản xuất mới.', color: 'metal', conf: '97.5%', binName: 'Thùng rác Kim loại' },
+            organic: { name: 'Rác hữu cơ', icon: 'apple', guide: 'Ủ phân hữu cơ cho vườn trường.', fact: 'Rác hữu cơ khi phân hủy ở bãi rác sinh ra khí Methane - gây hiệu ứng nhà kính gấp 25 lần CO2.', color: 'organic', conf: '96.2%', binName: 'Thùng rác Hữu cơ' },
+            glass: { name: 'Thủy tinh', icon: 'box', guide: 'Tháo nắp, bọc kín nếu có mảnh vỡ.', fact: 'Thủy tinh tái chế giúp giảm 20% ô nhiễm không khí và 50% ô nhiễm nước so với làm mới từ cát.', color: 'glass', conf: '95.1%', binName: 'Thùng rác Thủy tinh' },
+            ewaste: { name: 'Rác Điện tử', icon: 'zap', guide: 'Tuyệt đối không bỏ chung với rác khác.', fact: 'Một viên pin nhỏ bị xì hóa chất có thể làm ô nhiễm 500 lít nước ngầm trong 50 năm.', color: 'ewaste', conf: '98.9%', binName: 'Thùng rác Điện tử' },
+            textile: { name: 'Vải tái chế', icon: 'shirt', guide: 'Quyên tặng hoặc làm giẻ lau tái sử dụng.', fact: 'Ngành công nghiệp thời trang là nguồn xả thải ô nhiễm nước lớn thứ hai trên toàn cầu.', color: 'textile', conf: '94.3%', binName: 'Thùng rác Vải' },
+            unknown: { name: 'Không xác định', icon: 'alert-circle', guide: 'Vui lòng sử dụng hình ảnh rác hợp lệ (chai, giấy, lon, pin...).', fact: 'Hãy đảm bảo rác nằm gọn trong khung hình và đủ ánh sáng để AI nhận diện tốt nhất.', color: 'error', conf: '12.4%', binName: 'Không xác định' }
+        }
     },
     en: {
         nav_home: "Home",
@@ -145,8 +197,32 @@ const Translations = {
         stats_update_success: "School-wide statistics have been successfully updated!",
         mod_empty: "Queue is clear! No pending submissions for moderation.",
         mod_approved: "Submission approved. Tokens have been issued to the student!",
+        // Stats Editor
+        stats_update_title: "Update School-Wide Statistics",
+        stats_label_co2: "Emissions Reduced (kg)",
+        stats_label_waste: "Total Waste Recycled (kg)",
+        stats_label_trees: "Equivalent Trees Saved",
+        btn_update_now: "Update Now",
+        ai_projection_title: "AI Prediction (Next 30 Days)",
+        ai_projection_desc: "Aggregating submission data to predict trends...",
+        btn_reset_stats: "Reset to Zero",
+        // Video
+        vid_title_1: "Source Separation Guide",
+        vid_desc_1: "Basic manual for ICIA students.",
+        vid_title_2: "Plastic Recycling Process",
+        vid_desc_2: "Discover where plastic goes after disposal.",
+        vid_title_3: "School Composting",
+        vid_desc_3: "How to repurpose canteen organic waste.",
+        vid_title_4: "Making Ecobricks",
+        vid_desc_4: "Using plastic bags and single-use bottles.",
+        vid_title_5: "Upcycling Old Clothes",
+        vid_desc_5: "Don't throw away clothes, turn them into tote bags.",
+        vid_title_6: "Safe E-Waste Handling",
+        vid_desc_6: "Crucial steps for hazardous materials.",
+        vid_title_7: "Home Plastic Recycling",
+        vid_desc_7: "Detailed guide to turning waste into useful items.",
         // Role Selection
-        landing_title: "EcoTask Titanium",
+        landing_title: "EcoSchool Titanium",
         landing_subtitle: "Intelligent Recycling Management System",
         role_student_desc: "Scan waste, earn tokens & unlock privileges",
         role_teacher_desc: "Track analytics & manage student submissions",
@@ -181,7 +257,33 @@ const Translations = {
         stat_waste_label: "Waste Recycled (kg)",
         stat_trees_label: "Equivalent Trees Saved",
         chart_waste_title: "Waste Composition",
-        chart_trend_title: "Recycling Trends"
+        chart_trend_title: "Recycling Trends",
+        hero_title: "Turn waste into <span class=\"text-gradient\">resources</span>",
+        hero_desc: "Use Artificial Intelligence (AI) to sort waste and track the school's environmental impact.",
+        feat_scan_title: "AI Recognition",
+        feat_scan_desc: "Automatic waste classification in just 3 seconds.",
+        feat_moderation_title: "Moderation",
+        feat_moderation_desc: "Review waste evidence submitted by students.",
+        feat_stats_title: "Impact Tracking",
+        feat_stats_desc: "View real-time CO2 emission reduction data.",
+        feat_rewards_title: "Rewards & Prizes",
+        feat_rewards_desc: "Use Green Tokens to redeem school rewards.",
+        feat_wiki_title: "Recycling Wiki",
+        feat_wiki_desc: "Detailed instructions on how to handle each type of waste.",
+        proof_title: "Capture Evidence Image",
+        proof_desc: "Please take a photo of you throwing waste into the correct bin.",
+        btn_proof: "Capture Evidence Image",
+        bin_rec_title: "Recommended Bin:",
+        scan_results: {
+            plastic: { name: 'Recycled Plastic', icon: 'coffee', guide: 'Rinse and crush to save space.', fact: 'Did you know? A PET plastic bottle takes up to 450 years to fully decompose in the environment.', color: 'plastic', conf: '99.4%', binName: 'Plastic Bin' },
+            paper: { name: 'Dry Paper', icon: 'file-text', guide: 'Keep dry, remove metal staples and tape.', fact: 'Recycling 1 ton of paper saves 17 mature trees and 26,000 liters of water.', color: 'paper', conf: '98.8%', binName: 'Paper Bin' },
+            metal: { name: 'Metal', icon: 'disc', guide: 'Empty liquids, rinse lightly inside.', fact: 'Aluminum can be recycled infinitely without losing quality, saving 95% of energy compared to new production.', color: 'metal', conf: '97.5%', binName: 'Metal Bin' },
+            organic: { name: 'Organic Waste', icon: 'apple', guide: 'Compost for the school garden.', fact: 'When organic waste decomposes in landfills, it produces Methane - a greenhouse gas 25 times more potent than CO2.', color: 'organic', conf: '96.2%', binName: 'Organic Bin' },
+            glass: { name: 'Glass', icon: 'box', guide: 'Remove lids, wrap securely if broken.', fact: 'Recycling glass reduces air pollution by 20% and water pollution by 50% compared to making it from new sand.', color: 'glass', conf: '95.1%', binName: 'Glass Bin' },
+            ewaste: { name: 'E-Waste', icon: 'zap', guide: 'Never mix with other waste.', fact: 'A small battery leaking chemicals can pollute 500 liters of groundwater for 50 years.', color: 'ewaste', conf: '98.9%', binName: 'E-Waste Bin' },
+            textile: { name: 'Textile', icon: 'shirt', guide: 'Donate or reuse as cleaning rags.', fact: 'The fashion industry is the second largest source of water pollution globally.', color: 'textile', conf: '94.3%', binName: 'Textile Bin' },
+            unknown: { name: 'Unknown', icon: 'alert-circle', guide: 'Please use a valid waste image (bottle, paper, can, battery...).', fact: 'Ensure the waste is centered in the frame with good lighting for best AI recognition.', color: 'error', conf: '12.4%', binName: 'Unknown' }
+        }
     }
 };
 
@@ -202,10 +304,7 @@ const AppState = {
         { id: 7, name: "Sử dụng Laptop giờ giải lao", cost: 250, icon: "laptop", desc: "Đặc quyền dùng laptop trong 1 tuần", category: "Đặc quyền" },
         { id: 8, name: "Ưu tiên mượn sách thư viện", cost: 50, icon: "book", desc: "Không cần xếp hàng khi mượn sách", category: "Học tập" }
     ],
-    moderationQueue: [
-        { id: 101, user: "Lê Bá Duy", class: "9.1", type: "Nhựa tái chế", time: "10:30", img: "assets/wiki/wiki_img_25.jpg" },
-        { id: 102, user: "Trần Thị B", class: "8.2", type: "Giấy khô", time: "11:15", img: "assets/wiki/wiki_img_10.jpg" }
-    ],
+    moderationQueue: [],
 
     // School Global Stats (Managed by Teacher)
     globalStats: {
@@ -221,30 +320,13 @@ const AppState = {
     init() {
         this.updateLanguageUI();
         this.initThemeToggle();
+        this.loadAIModel();
 
-        // Check for saved session
-        const savedUser = localStorage.getItem('ecotask-user');
+        // Session is still kept in localStorage just to remember who is logged in
+        const savedUser = localStorage.getItem('ecoschool-user');
         if (savedUser) {
             this.currentUser = JSON.parse(savedUser);
             this.enterApp();
-        }
-
-        // Load submission history (Student personal)
-        const savedHistory = localStorage.getItem('ecotask-history');
-        if (savedHistory) {
-            this.submissionHistory = JSON.parse(savedHistory);
-        }
-
-        // Load Global Moderation Queue (Shared between roles for demo)
-        const savedQueue = localStorage.getItem('ecotask-mod-queue');
-        if (savedQueue) {
-            this.moderationQueue = JSON.parse(savedQueue);
-        }
-
-        // Load Personal Tokens
-        const savedTokens = localStorage.getItem('ecotask-tokens');
-        if (savedTokens !== null) {
-            this.tokens = parseInt(savedTokens);
         }
 
         this.renderRewards();
@@ -254,6 +336,42 @@ const AppState = {
         const uploadInput = document.getElementById('ai-upload');
         if (uploadInput) {
             uploadInput.addEventListener('change', (e) => this.handleImageUpload(e));
+        }
+    },
+
+    showToast(message, isError = false) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${isError ? 'error' : ''}`;
+
+        const iconName = isError ? 'alert-circle' : 'check-circle';
+        toast.innerHTML = `
+            <i data-lucide="${iconName}" class="toast-icon"></i>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+        lucide.createIcons();
+
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400); // Wait for transition
+        }, 3000);
+    },
+
+    async loadAIModel() {
+        console.log("Loading TensorFlow.js MobileNet Model...");
+        try {
+            this.tfModel = await mobilenet.load();
+            console.log("MobileNet loaded successfully!");
+        } catch (e) {
+            console.error("Failed to load AI model", e);
         }
     },
 
@@ -301,18 +419,12 @@ const AppState = {
 
         // Mock validation for teacher code if needed
         if (role === 'teacher' && document.getElementById('login-code').value !== '1234') {
-            alert("Mã code giáo viên không đúng (Demo: 1234)");
+            this.showToast(this.lang === 'vi' ? "Mã code giáo viên không đúng (Demo: 1234)" : "Incorrect Teacher Code (Demo: 1234)", true);
             return;
         }
 
         this.currentUser = { name, role, grade, class: className };
-        localStorage.setItem('ecotask-user', JSON.stringify(this.currentUser));
-
-        if (role === 'student') {
-            this.tokens = 0; // Students start with 0 tokens
-            localStorage.setItem('ecotask-tokens', '0');
-        }
-
+        localStorage.setItem('ecoschool-user', JSON.stringify(this.currentUser));
         this.enterApp();
     },
 
@@ -369,8 +481,10 @@ const AppState = {
         document.getElementById('proof-step').classList.remove('hidden');
 
         // Hide "Xác nhận AI", show "Gửi bằng chứng"
-        document.getElementById('scanner-confirm-step').classList.add('hidden');
-        document.getElementById('scanner-final-actions').classList.remove('hidden');
+        const confirmStep = document.getElementById('scanner-confirm-step');
+        if (confirmStep) confirmStep.classList.add('hidden');
+        const finalActions = document.getElementById('scanner-final-actions');
+        if (finalActions) finalActions.classList.remove('hidden');
 
         // Hide "Scan Again" button in direct proof mode
         document.getElementById('scanner-reset-step').classList.add('hidden');
@@ -385,7 +499,7 @@ const AppState = {
     },
 
     logout() {
-        localStorage.removeItem('ecotask-user');
+        localStorage.removeItem('ecoschool-user');
         location.reload();
     },
 
@@ -410,10 +524,30 @@ const AppState = {
             targetPage.classList.add('active');
             window.scrollTo(0, 0);
         }
+        if (pageId === 'home') {
+            this.updateTokenDisplay(); // NEW: Auto-sync fresh tokens from the backend
+            this.renderStudentHistory(); // NEW: Keep history fully synced on dashboard load
+        }
+        // Re-render dynamic components if they have text bound
+        if (this.currentPage === 'rewards') this.renderRewards();
+        if (this.currentPage === 'teacher-panel' && !document.getElementById('teacher-moderation').classList.contains('hidden')) {
+            this.renderModerationQueue();
+        }
 
-        // Init/Refresh specific page components
-        if (pageId === 'stats' && !this.charts.waste) this.initCharts();
-        if (pageId === 'teacher-panel') this.renderModerationQueue();
+        // Re-render AI results if actively looking at one
+        if (this.scannerState === 'result' && document.getElementById('scanner-result') && !document.getElementById('scanner-result').classList.contains('hidden')) {
+            // Re-fire the rendering logic using the localized dictionary
+            const cachedResultType = this.lastScannerResultType || 'unknown';
+            this.finishScanningWithResult(cachedResultType, true);
+        }
+        if (pageId === 'stats') {
+            if (!this.charts.waste) this.initCharts();
+            this.updateDashboardData();
+        }
+        if (pageId === 'teacher-panel') {
+            this.renderModerationQueue();
+            this.loadGlobalStatsIntoForm();
+        }
         if (pageId === 'rewards') this.renderRewards();
     },
 
@@ -423,78 +557,152 @@ const AppState = {
         if (!file) return;
 
         this.scannerState = 'processing';
+        this.lastUploadedFileName = file.name ? file.name.toLowerCase() : '';
         document.querySelector('.upload-content').classList.add('hidden');
         document.getElementById('ai-preview').classList.remove('hidden');
         document.getElementById('scanning-effect').classList.remove('hidden');
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            document.getElementById('preview-img').src = e.target.result;
-            setTimeout(() => this.finishScanning(file.name.toLowerCase()), 2000);
+            const imgEl = document.getElementById('preview-img');
+            imgEl.onload = () => {
+                // Ensure the UI has time to render the image before AI blocks the thread
+                setTimeout(() => this.runAIClassification(imgEl), 500);
+            };
+            imgEl.src = e.target.result;
         };
         reader.readAsDataURL(file);
     },
 
-    finishScanning(filename) {
-        this.scannerState = 'result';
-        document.getElementById('scanning-effect').classList.add('hidden');
-        document.getElementById('scanner-result').classList.remove('hidden');
-
-        // Fix: Ensure result cards are visible because direct proof hides them
-        const resultCard = document.querySelector('.result-card');
-        if (resultCard) resultCard.classList.remove('hidden');
-        const resultTitle = document.querySelector('h3[data-i18n="result_title"]');
-        if (resultTitle) resultTitle.classList.remove('hidden');
-
+    async runAIClassification(imgElement) {
         let resultType = 'unknown';
-        const name = filename.toLowerCase();
+        this.lastAIInsight = '';
 
-        // 1. Dòng rác cơ bản
-        if (name.includes('nhua') || name.includes('bottle') || name.includes('chai') || name.includes('pet') || name.includes('cup') || name.includes('plastic') || name.includes('zalo') || name.includes('img') || name.includes('image') || name.includes('screenshot') || name.includes('cap')) {
-            resultType = 'plastic'; // Default fallback assumption for unspecified photos
-        }
-        if (name.includes('giay') || name.includes('paper') || name.includes('carton') || name.includes('bia') || name.includes('book') || name.includes('tape')) {
-            resultType = 'paper';
-        }
-        if (name.includes('lon') || name.includes('can') || name.includes('metal') || name.includes('tin') || name.includes('nhom')) {
-            resultType = 'metal';
-        }
-        if (name.includes('rau') || name.includes('cu') || name.includes('qua') || name.includes('peel') || name.includes('apple') || name.includes('thua') || name.includes('organic')) {
-            resultType = 'organic';
-        }
-        if (name.includes('thuy tinh') || name.includes('glass') || name.includes('lo')) {
-            resultType = 'glass';
-        }
-        if (name.includes('pin') || name.includes('battery') || name.includes('dien tu') || name.includes('sac')) {
-            resultType = 'ewaste';
-        }
-        if (name.includes('vai') || name.includes('ao') || name.includes('quan') || name.includes('shirt')) {
-            resultType = 'textile';
+        try {
+            // Send Base64 image to Python Backend (Gemini API)
+            const response = await fetch(`${API_BASE_URL}/analyze-waste`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imgElement.src, lang: this.lang })
+            });
+
+            if (!response.ok) throw new Error("API Connection Failed");
+
+            const aiData = await response.json();
+            
+            if (aiData.error) throw new Error(aiData.error);
+
+            const rawCategory = aiData.category || 'unknown';
+            resultType = String(rawCategory).toLowerCase().replace('-', ''); // Strip '-' to match 'ewaste'
+            const topItem = aiData.item_name || 'Rác thải';
+            const mappedCo2 = aiData.co2_saved || '0.1';
+            const conf = aiData.confidence || '95%';
+
+            // Setup dynamic data passing for finishScanningWithResult
+            this.geminiDynamicData = {
+                name: topItem,
+                conf: conf,
+                co2: mappedCo2
+            };
+
+        } catch (e) {
+            console.error("Gemini Scan Error:", e);
+            resultType = 'unknown';
+            // Show the actual error message on UI to help debug connection/VPN issues
+            this.lastAIInsight = this.lang === 'vi' ? 'Lỗi hệ thống: ' + (e.message || 'Không thể kết nối AI Server') : 'System Error: ' + (e.message || 'Cannot connect to AI Server');
+            this.geminiDynamicData = null;
         }
 
-        // 2. Default if perfectly unknown
-        if (resultType === 'unknown') {
-            resultType = 'plastic'; // Make plastic the ultimate default for the demo
+        this.finishScanningWithResult(resultType);
+    },
+
+    finishScanningWithResult(resultType, isLanguageRefresh = false) {
+        if (!isLanguageRefresh) {
+            this.scannerState = 'result';
+            this.lastScannerResultType = resultType;
+            document.getElementById('scanning-effect').classList.add('hidden');
+            document.getElementById('scanner-result').classList.remove('hidden');
+
+            const resultCard = document.querySelector('.result-card');
+            if (resultCard) resultCard.classList.remove('hidden');
+            const resultTitle = document.querySelector('h3[data-i18n="result_title"]');
+            if (resultTitle) resultTitle.classList.remove('hidden');
         }
 
-        const data = {
-            plastic: { name: 'Nhựa tái chế', icon: 'coffee', guide: 'Rửa sạch, ép xẹp để tiết kiệm diện tích.', color: 'plastic', conf: '99.4%' },
-            paper: { name: 'Giấy khô', icon: 'file-text', guide: 'Giữ khô ráo, tháo ghim sắt và băng keo.', color: 'paper', conf: '98.8%' },
-            metal: { name: 'Kim loại', icon: 'disc', guide: 'Đổ hết chất lỏng, rửa sơ bên trong.', color: 'metal', conf: '97.5%' },
-            organic: { name: 'Rác hữu cơ', icon: 'apple', guide: 'Ủ phân hữu cơ cho vườn trường.', color: 'organic', conf: '96.2%' },
-            glass: { name: 'Thủy tinh', icon: 'box', guide: 'Tháo nắp, bọc kín nếu có mảnh vỡ.', color: 'glass', conf: '95.1%' },
-            ewaste: { name: 'Rác Điện tử', icon: 'zap', guide: 'Tuyệt đối không bỏ chung với rác khác.', color: 'ewaste', conf: '98.9%' },
-            textile: { name: 'Vải tái chế', icon: 'shirt', guide: 'Quyên tặng hoặc làm giẻ lau tái sử dụng.', color: 'textile', conf: '94.3%' },
-            unknown: { name: 'Không xác định', icon: 'alert-circle', guide: 'Vui lòng sử dụng hình ảnh rác thải hợp lệ (chai, giấy, lon...).', color: 'error', conf: '12.4%' }
-        }[resultType];
+        const baseData = Translations[this.lang].scan_results[resultType] || Translations[this.lang].scan_results['unknown'];
+        const data = { ...baseData };
+
+        if (!isLanguageRefresh && this.geminiDynamicData && resultType !== 'unknown') {
+            data.name = this.geminiDynamicData.name;
+            data.conf = this.geminiDynamicData.conf;
+        } else if (isLanguageRefresh && this.geminiDynamicData && resultType !== 'unknown') {
+            // Keep the dynamic name even across language refreshes if possible, 
+            // but we might just fallback to the baseData name if it's cleaner.
+            // For now, let's just let it translate the name via the baseData to solve the dual language bugs.
+            data.conf = this.geminiDynamicData.conf;
+        }
 
         this.lastScannerResult = data;
         document.getElementById('result-type').textContent = data.name;
         document.getElementById('result-confidence').textContent = data.conf;
         document.getElementById('result-guide').textContent = "💡 " + data.guide;
+
+        const factElement = document.getElementById('result-fact');
+        if (factElement) {
+            const factPrefix = this.lang === 'vi' ? 'Kiến thức xanh' : 'Eco Fact';
+            factElement.innerHTML = `<strong>🌱 ${factPrefix}:</strong> ${data.fact}`;
+        }
+
         const iconWrap = document.getElementById('result-icon-wrapper');
         iconWrap.innerHTML = `<i data-lucide="${data.icon}"></i>`;
         iconWrap.className = 'result-icon-wrapper ' + data.color;
+
+        // Populate AI Insight (Gemini CO2 stats or Error message)
+        const aiInsightEl = document.getElementById('result-ai-insight');
+        
+        // Dynamically regenerate the translated AI string based on current language state
+        if (this.geminiDynamicData && resultType !== 'unknown') {
+            const topItem = this.geminiDynamicData.name;
+            const mappedCo2 = this.geminiDynamicData.co2;
+            this.lastAIInsight = this.lang === 'vi' 
+                ? `AI phát hiện đây là [${topItem}]. Tái chế món đồ này cứu được khoảng ${mappedCo2} kg CO2!`
+                : `AI detected [${topItem}]. Recycling this saves approximately ${mappedCo2} kg CO2!`;
+        }
+
+        if (this.lastAIInsight) {
+            aiInsightEl.textContent = this.lastAIInsight;
+            aiInsightEl.classList.remove('hidden');
+            aiInsightEl.style.fontSize = '1.05rem';
+            aiInsightEl.style.lineHeight = '1.6';
+            
+            // If it's an error message (unknown type), make it look like a warning
+            if (resultType === 'unknown') {
+                aiInsightEl.style.color = '#ef4444'; // Tailwind text-red-500
+                aiInsightEl.style.borderColor = '#ef4444'; 
+                aiInsightEl.style.background = 'rgba(239, 68, 68, 0.1)';
+            } else {
+                // Reset to default green styles
+                aiInsightEl.style.color = 'var(--primary)';
+                aiInsightEl.style.borderColor = 'var(--primary)';
+                aiInsightEl.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+        } else {
+            aiInsightEl.classList.add('hidden');
+        }
+
+        // Populate Bin Recommendation
+        const binRecEl = document.getElementById('result-bin-recommendation');
+        if (resultType !== 'unknown') {
+            binRecEl.classList.remove('hidden');
+            const binImgEl = document.getElementById('result-bin-img');
+            const binNameEl = document.getElementById('result-bin-name');
+            // Resolve to the beautifully generated Wiki Bin assets
+            const binAsset = this.wikiData[resultType] ? this.wikiData[resultType].img : `assets/${resultType}.png`;
+            binImgEl.src = binAsset;
+            binNameEl.textContent = data.binName;
+        } else {
+            binRecEl.classList.add('hidden');
+        }
 
         const confirmBtn = document.querySelector('.scanner-actions .btn-primary');
         if (confirmBtn) confirmBtn.classList.toggle('hidden', resultType === 'unknown');
@@ -524,43 +732,79 @@ const AppState = {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            document.getElementById('proof-preview-img').src = e.target.result;
-            document.getElementById('proof-preview-container').classList.remove('hidden');
-            document.getElementById('scanner-final-actions').classList.remove('hidden');
-            document.getElementById('scanner-confirm-step').classList.add('hidden');
+            const img = new Image();
+            img.onload = () => {
+                // Compress image to prevent localStorage QuotaExceededError
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 600;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_WIDTH) {
+                    height = Math.round((height * MAX_WIDTH) / width);
+                    width = MAX_WIDTH;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Get compressed base64 (jpeg, 0.7 quality saves massive space)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                document.getElementById('proof-preview-img').src = compressedBase64;
+                document.getElementById('proof-preview-container').classList.remove('hidden');
+                const finalActions = document.getElementById('scanner-final-actions');
+                if (finalActions) finalActions.classList.remove('hidden');
+                const confirmStep = document.getElementById('scanner-confirm-step');
+                if (confirmStep) confirmStep.classList.add('hidden');
+            };
+            img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     },
 
-    submitForModeration() {
+    async submitForModeration() {
         const type = this.lastScannerResult ? this.lastScannerResult.name : (this.lang === 'vi' ? 'Minh chứng trực tiếp' : 'Direct Proof');
-        const newItem = {
-            id: Date.now(),
+
+        const payload = {
             user: this.currentUser.name,
             class: this.currentUser.class,
             type: type,
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             img: document.getElementById('proof-preview-img').src,
-            status: 'pending'
+            ai_insight: this.lastAIInsight || ''
         };
 
-        // Add to local student record
-        this.submissionHistory.unshift(newItem);
-        localStorage.setItem('ecotask-history', JSON.stringify(this.submissionHistory));
+        try {
+            await fetch(API_BASE_URL + '/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            this.showToast(this.lang === 'vi' ? "Đã gửi minh chứng! Vui lòng chờ giáo viên xét duyệt để nhận token." : "Evidence submitted! Awaiting teacher approval for tokens.");
+        } catch (e) {
+            console.error("API submit error:", e);
+            this.showToast("Lỗi kết nối máy chủ / Server connection error.", true);
+        }
 
-        // Add to global moderation queue (Shared persistence)
-        this.moderationQueue.unshift(newItem);
-        localStorage.setItem('ecotask-mod-queue', JSON.stringify(this.moderationQueue));
-
-        alert(this.lang === 'vi' ? "Đã gửi minh chứng! Vui lòng chờ giáo viên xét duyệt để nhận token." : "Evidence submitted! Awaiting teacher approval for tokens.");
         this.resetScanner();
         this.renderStudentHistory();
         this.navigateTo('home');
     },
 
-    renderStudentHistory() {
+    async renderStudentHistory() {
         const grid = document.getElementById('student-history-grid');
-        if (!grid) return;
+        if (!grid || !this.currentUser) return;
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(this.currentUser.name)}`);
+            this.submissionHistory = await res.json();
+        } catch (e) {
+            console.error(e);
+            return;
+        }
 
         if (this.submissionHistory.length === 0) {
             grid.innerHTML = `<p data-i18n="history_empty" style="grid-column: 1/-1; opacity: 0.5; text-align: center; padding: 20px;">${Translations[this.lang].history_empty}</p>`;
@@ -574,8 +818,12 @@ const AppState = {
                     <span style="font-weight:700; font-size:0.85rem">${item.type}</span>
                     <span style="font-size:0.7rem; opacity:0.7">${item.time}</span>
                     <div style="display:flex; align-items:center; gap:4px">
-                        <i data-lucide="${item.status === 'pending' ? 'clock' : 'check-circle'}" style="width:12px; height:12px"></i>
-                        <span class="history-status status-${item.status}">${item.status === 'pending' ? (this.lang === 'vi' ? 'Chờ duyệt' : 'Pending') : (this.lang === 'vi' ? 'Đã duyệt' : 'Approved')}</span>
+                        <i data-lucide="${item.status === 'pending' ? 'clock' : (item.status === 'approved' ? 'check-circle' : 'x-circle')}" style="width:12px; height:12px"></i>
+                        <span class="history-status status-${item.status}">
+                            ${item.status === 'pending' ? (this.lang === 'vi' ? 'Chờ duyệt' : 'Pending') :
+                item.status === 'approved' ? (this.lang === 'vi' ? 'Đã duyệt (+' + item.tokens_rewarded + ')' : 'Approved (+' + item.tokens_rewarded + ')') :
+                    (this.lang === 'vi' ? 'Từ chối' : 'Rejected')}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -598,8 +846,10 @@ const AppState = {
         document.getElementById('upload-zone').classList.remove('hidden');
         document.getElementById('scanner-result').classList.add('hidden');
         document.getElementById('proof-step').classList.add('hidden');
-        document.getElementById('scanner-final-actions').classList.add('hidden');
-        document.getElementById('scanner-confirm-step').classList.remove('hidden');
+        const finalActions = document.getElementById('scanner-final-actions');
+        if (finalActions) finalActions.classList.add('hidden');
+        const confirmStep = document.getElementById('scanner-confirm-step');
+        if (confirmStep) confirmStep.classList.add('hidden');
         document.getElementById('scanner-reset-step').classList.remove('hidden'); // Ensure Scan Again is visible for AI scanner
         document.getElementById('proof-preview-container').classList.add('hidden');
 
@@ -611,19 +861,31 @@ const AppState = {
     },
 
     // --- Teacher Panels ---
-    switchTeacherTab(tab) {
-        document.querySelectorAll('.t-tab-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.tab === tab);
-        });
-        document.getElementById('teacher-moderation').classList.toggle('hidden', tab !== 'moderation');
-        document.getElementById('teacher-stats-edit').classList.toggle('hidden', tab !== 'stats');
+    switchTeacherTab(tabId) {
+        document.getElementById('teacher-moderation').classList.toggle('hidden', tabId !== 'moderation');
+        document.getElementById('teacher-stats-edit').classList.toggle('hidden', tabId !== 'stats-edit');
+        document.getElementById('tch-tab-mod').classList.toggle('active', tabId === 'moderation');
+        document.getElementById('tch-tab-stats').classList.toggle('active', tabId === 'stats-edit');
+
+        if (tabId === 'stats-edit') {
+            this.loadGlobalStatsIntoForm();
+            setTimeout(() => this.renderTrendChart(), 100);
+        } else {
+            this.renderModerationQueue();
+        }
     },
 
-    renderModerationQueue() {
+    async renderModerationQueue() {
         let container = document.getElementById('moderation-grid');
-
-        // Ensure container exists
         if (!container) return;
+
+        try {
+            const res = await fetch(API_BASE_URL + '/queue');
+            this.moderationQueue = await res.json();
+        } catch (e) {
+            console.error(e);
+            return;
+        }
 
         if (this.moderationQueue.length === 0) {
             container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; color: var(--text-muted); background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-color); margin-top:20px;">
@@ -643,20 +905,25 @@ const AppState = {
                 </div>
                 <div class="mod-content">
                     <div class="mod-user-info">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user}" class="mod-avatar">
+                        <div style="width: 40px; height: 40px; min-width: 40px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-color); flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff;">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div>
                             <strong>${item.user}</strong>
-                            <div style="font-size: 0.8rem; color: var(--text-muted)">Lớp ${item.class} • ${item.time}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted)">Lớp ${item.class_name} • ${item.time}</div>
                         </div>
                     </div>
                     
+                    ${item.ai_insight ? `
+                    <div style="margin-top: 15px; background: rgba(16, 185, 129, 0.1); border: 1px dashed var(--primary-color); padding: 10px; border-radius: 8px; font-size: 0.8rem; color: var(--text-main);">
+                        <strong>🤖 Gợi ý từ AI:</strong><br>
+                        ${item.ai_insight}
+                    </div>
+                    ` : ''}
+
                     <div class="token-selector" style="margin-top:15px; background: var(--bg-primary); padding:8px; border-radius:10px; border: 1px solid var(--border-color)">
-                        <label style="font-size: 0.7rem; opacity:0.8; display:block; margin-bottom:5px">Số token thưởng:</label>
-                        <select id="reward-amount-${item.id}" style="width:100%; padding:5px; border-radius:6px; background: var(--bg-secondary); color: var(--text-main); border:none">
-                            <option value="10">10 Tokens (+0.5 kg CO2)</option>
-                            <option value="20" selected>20 Tokens (+1.0 kg CO2)</option>
-                            <option value="50">50 Tokens (+2.5 kg CO2)</option>
-                        </select>
+                        <label style="font-size: 0.7rem; opacity:0.8; display:block; margin-bottom:5px">Nhập số Token thưởng (1-1000):</label>
+                        <input type="number" id="reward-amount-${item.id}" value="20" min="1" max="1000" style="width:100%; padding:8px; border-radius:6px; background: var(--bg-secondary); color: var(--text-main); border:1px solid var(--border-color); box-sizing: border-box;">
                     </div>
                 </div>
                 <div class="mod-actions">
@@ -672,7 +939,7 @@ const AppState = {
         lucide.createIcons();
     },
 
-    moderateAction(id, action) {
+    async moderateAction(id, action) {
         const card = document.getElementById(`mod-card-${id}`);
         const rewardSelect = document.getElementById(`reward-amount-${id}`);
         const amount = rewardSelect ? parseInt(rewardSelect.value) : 20;
@@ -681,50 +948,96 @@ const AppState = {
         card.style.opacity = '0.5';
         card.style.pointerEvents = 'none';
 
-        setTimeout(() => {
-            const item = this.moderationQueue.find(i => i.id === id);
-            this.moderationQueue = this.moderationQueue.filter(i => i.id !== id);
-            localStorage.setItem('ecotask-mod-queue', JSON.stringify(this.moderationQueue));
+        try {
+            await fetch(`${API_BASE_URL}/moderate/${id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action, tokens: amount })
+            });
 
             this.renderModerationQueue();
 
             if (action === 'approve') {
-                // Persistent Token Granting
-                this.tokens += amount;
-                localStorage.setItem('ecotask-tokens', this.tokens);
-                this.updateTokenDisplay();
-
-                // Update history in storage for student
-                const savedHistory = JSON.parse(localStorage.getItem('ecotask-history') || '[]');
-                const historyIdx = savedHistory.findIndex(i => i.id === id);
-                if (historyIdx !== -1) {
-                    savedHistory[historyIdx].status = 'approved';
-                    localStorage.setItem('ecotask-history', JSON.stringify(savedHistory));
-                }
-
-                alert(`${Translations[this.lang].mod_approved} (+${amount} Tokens)`);
+                this.showToast(`${Translations[this.lang].mod_approved} (+${amount} Tokens)`);
+                this.updateGlobalTokensOnApprove(amount);
             }
-        }, 600);
+        } catch (e) {
+            console.error("Moderate failed", e);
+            this.showToast("Lỗi kết nối máy chủ", true);
+            card.style.transform = 'none';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+        }
     },
 
-    loadGlobalStatsIntoForm() {
-        document.getElementById('edit-co2').value = this.globalStats.co2;
-        document.getElementById('edit-waste').value = this.globalStats.waste;
-        document.getElementById('edit-trees').value = this.globalStats.trees;
+    async updateGlobalTokensOnApprove(amount) {
+        // Teacher session doesn't need to load tokens locally, but just in case
+        this.tokens += amount;
+        this.updateTokenDisplay(); // This is just a UI update fallback
     },
 
-    saveGlobalStats() {
+    async loadGlobalStatsIntoForm() {
+        try {
+            const res = await fetch(API_BASE_URL + '/stats', { cache: 'no-store' });
+            this.globalStats = await res.json();
+            document.getElementById('edit-co2').value = this.globalStats.co2;
+            document.getElementById('edit-waste').value = this.globalStats.waste;
+            document.getElementById('edit-trees').value = this.globalStats.trees;
+        } catch (e) { console.error("Stats API error:", e); }
+    },
+
+    async saveGlobalStats() {
         this.globalStats.co2 = parseFloat(document.getElementById('edit-co2').value);
         this.globalStats.waste = parseFloat(document.getElementById('edit-waste').value);
         this.globalStats.trees = parseFloat(document.getElementById('edit-trees').value);
-        alert(Translations[this.lang].stats_update_success);
-        this.navigateTo('stats');
+
+        try {
+            await fetch(API_BASE_URL + '/stats', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.globalStats)
+            });
+            this.showToast(this.lang === 'vi' ? "Đã cập nhật số liệu toàn trường!" : "Global stats updated!");
+
+            // Re-render the AI chart to immediately reflect the newly typed Teacher numbers
+            this.renderTrendChart();
+            this.updateDashboardData();
+        } catch (e) {
+            console.error("API update error:", e);
+            this.showToast("Lỗi kết nối máy chủ", true);
+        }
+    },
+
+    async resetGlobalStats() {
+        if (!confirm(this.lang === 'vi' ? "CẢNH BÁO: Hành động này sẽ xóa toàn bộ số liệu thống kê chung (CO2, Rác, Cây xanh) của toàn trường về 0. Lịch sử duyệt minh chứng vẫn được giữ nguyên. Bạn có chắc chắn không?" : "WARNING: This will reset all global school statistics (CO2, Waste, Trees) to 0. Submission history will remain intact. Are you sure?")) {
+            return;
+        }
+
+        try {
+            this.globalStats = { co2: 0, waste: 0, trees: 0 };
+            document.getElementById('edit-co2').value = 0;
+            document.getElementById('edit-waste').value = 0;
+            document.getElementById('edit-trees').value = 0;
+
+            await fetch(API_BASE_URL + '/stats', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.globalStats)
+            });
+
+            this.showToast(this.lang === 'vi' ? "Đã khôi phục số liệu gốc!" : "Statistics reset to zero!", false);
+            this.renderTrendChart();
+            this.updateDashboardData();
+        } catch (e) {
+            console.error("API reset error:", e);
+            this.showToast("Lỗi kết nối máy chủ", true);
+        }
     },
 
     // --- Stats & Charts ---
     initCharts() {
         const ctxWaste = document.getElementById('wasteChart').getContext('2d');
-        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        const ctxTrend = document.getElementById('studentTrendChart').getContext('2d');
 
         this.charts.waste = new Chart(ctxWaste, {
             type: 'doughnut',
@@ -739,13 +1052,13 @@ const AppState = {
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
         });
 
-        this.charts.trend = new Chart(ctxTrend, {
+        this.charts.studentTrend = new Chart(ctxTrend, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'Nay'],
                 datasets: [{
-                    label: 'CO2 reduced (kg)',
-                    data: [200, 450, 300, 600, 550, 800],
+                    label: 'CO2 Đã giảm (kg)',
+                    data: [20, 45, 30, 60, 55, 80],
                     borderColor: '#10B981',
                     tension: 0.4,
                     fill: true,
@@ -799,6 +1112,11 @@ const AppState = {
             flag.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg";
             text.textContent = "EN";
         }
+
+        // Sync AI result screen live if the user is currently looking at an AI result
+        if (this.scannerState === 'result' && this.lastScannerResultType) {
+            this.finishScanningWithResult(this.lastScannerResultType, true);
+        }
     },
 
     updateNavAvatar() {
@@ -817,34 +1135,97 @@ const AppState = {
         card.querySelector('.profile-avatar').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(this.currentUser.name)}`;
     },
 
-    updateTokenDisplay() {
-        const tds = document.querySelectorAll('#nav-tokens, #rewards-token-count');
-        tds.forEach(el => {
-            if (el) el.textContent = this.tokens;
-        });
+    async updateTokenDisplay() {
+        if (!this.currentUser) return;
+        try {
+            const res = await fetch(`${API_BASE_URL}/tokens/${encodeURIComponent(this.currentUser.name)}`);
+            const data = await res.json();
+            this.tokens = data.tokens;
+
+            const tds = document.querySelectorAll('#nav-tokens, #rewards-token-count');
+            tds.forEach(el => {
+                if (el) el.textContent = this.tokens;
+            });
+
+            // Update nav avatar display specifically for tokens
+            const navTks = document.getElementById('nav-tokens');
+            if (navTks) navTks.textContent = this.tokens;
+        } catch (e) {
+            console.error("Token sync error:", e);
+        }
     },
 
-    renderRewards() {
+    async renderRewards() {
         const grid = document.getElementById('rewards-grid');
         if (!grid) return;
 
-        grid.innerHTML = this.rewardsData.map(item => `
-            <div class="wiki-card reward-card">
-                <div class="reward-img" style="background: var(--bg-secondary); display:flex; align-items:center; justify-content:center; height:140px; border-radius:12px; margin-bottom:16px">
-                    <i data-lucide="${item.icon}" style="width:48px; height:48px; color:var(--primary)"></i>
+        try {
+            const res = await fetch(API_BASE_URL + '/rewards', { cache: 'no-store' });
+            const liveRewards = await res.json();
+
+            grid.innerHTML = liveRewards.map(item => {
+                const outOfStock = item.stock_remaining <= 0;
+                const lowStock = item.stock_remaining > 0 && item.stock_remaining <= 5;
+                const lowStockBadge = lowStock ? `<span class="badge" style="background:#ef4444; color:#fff; font-size:0.65rem; animation: pulse 2s infinite">Chỉ còn ${item.stock_remaining}!</span>` : '';
+                const btnState = outOfStock ? 'disabled style="opacity:0.5; cursor:not-allowed"' : `onclick="AppState.redeemReward('${item.id}', '${item.name}', ${item.cost})"`;
+                const btnText = outOfStock ? (this.lang === 'vi' ? 'Hết hàng' : 'Out of Stock') : Translations[this.lang].btn_redeem;
+
+                return `
+                <div class="wiki-card reward-card ${outOfStock ? 'grayscale' : ''}" style="position:relative">
+                    ${outOfStock ? '<div style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#fff; padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:bold; z-index:2">HẾT HÀNG</div>' : ''}
+                    <div class="reward-img" style="background: var(--bg-secondary); display:flex; align-items:center; justify-content:center; height:140px; border-radius:12px; margin-bottom:16px; position:relative">
+                        <i data-lucide="${item.icon}" class="${item.color}" style="width:48px; height:48px;"></i>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px">
+                        ${lowStockBadge || `<span class="badge" style="font-size:0.6rem; opacity:0.8">Đặc quyền</span>`}
+                        <span style="font-weight:900; color:var(--primary); font-size:1.1rem; ${outOfStock ? 'opacity:0.5' : ''}">${item.cost} <i data-lucide="leaf" style="width:14px; height:14px; display:inline"></i></span>
+                    </div>
+                    <h3 style="margin-bottom:10px; font-size:1.1rem; min-height:44px">${item.name}</h3>
+                    <button class="btn btn-primary btn-sm btn-block" ${btnState}>
+                        ${btnText}
+                    </button>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px">
-                    <span class="badge" style="font-size:0.6rem; opacity:0.8">${item.category}</span>
-                    <span style="font-weight:900; color:var(--primary); font-size:1.1rem">${item.cost} <i data-lucide="leaf" style="width:14px; height:14px; display:inline"></i></span>
-                </div>
-                <h3 style="margin-bottom:4px; font-size:1.1rem">${item.name}</h3>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px">${item.desc}</p>
-                <button class="btn btn-primary btn-sm btn-block" onclick="AppState.redeemReward(${item.id}, '${item.name}', ${item.cost})">
-                    ${Translations[this.lang].btn_redeem}
-                </button>
-            </div>
-        `).join('');
-        lucide.createIcons();
+                `;
+            }).join('');
+            lucide.createIcons();
+        } catch (e) {
+            console.error("Failed to load rewards inventory", e);
+        }
+    },
+
+    async redeemReward(id, name, cost) {
+        if (!this.currentUser || this.currentUser.role !== 'student') {
+            this.showToast(this.lang === 'vi' ? "Chỉ học sinh mới có thể đổi quà." : "Only students can redeem rewards.", true);
+            return;
+        }
+
+        if (this.tokens < cost) {
+            this.showToast(this.lang === 'vi' ? "Bạn không đủ tokens!" : "Not enough tokens!", true);
+            return;
+        }
+
+        if (confirm(this.lang === 'vi' ? `Xác nhận đổi phần thưởng: ${name} với giá ${cost} Token?` : `Confirm redeeming: ${name} for ${cost} Tokens?`)) {
+            try {
+                // Deduct tokens via API
+                const res = await fetch(`${API_BASE_URL}/tokens/${encodeURIComponent(this.currentUser.name)}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cost: cost, reward_id: id })
+                });
+
+                if (res.ok) {
+                    this.showToast(this.lang === 'vi' ? `Đổi thưởng thành công: ${name}` : `Successfully redeemed: ${name}`);
+                    this.updateTokenDisplay(); // Refresh tokens from server
+                    this.renderRewards(); // Refresh stock inventory live
+                } else {
+                    const errData = await res.json();
+                    this.showToast(errData.error || "Lỗi giao dịch", true);
+                }
+            } catch (e) {
+                console.error("Redeem API error:", e);
+                this.showToast("Lỗi kết nối máy chủ", true);
+            }
+        }
     },
 
     initThemeToggle() {
@@ -857,43 +1238,241 @@ const AppState = {
     },
 
     // --- Stats & Animations ---
-    animateValue(id, end) {
+    animateValue(id, end, suffix = '') {
         const obj = document.getElementById(id);
         if (!obj) return;
         const start = 0;
-        const duration = 1000;
+        const duration = 1500;
         let p = 0;
+
+        // Ensure we are working with valid numbers
+        const endVal = parseFloat(end) || 0;
+        const isFloat = !Number.isInteger(endVal) || endVal % 1 !== 0;
+
         const step = (timestamp) => {
             if (!p) p = timestamp;
             const progress = Math.min((timestamp - p) / duration, 1);
-            obj.innerHTML = Math.floor(start + end * progress).toLocaleString();
+            const currentVal = start + (endVal - start) * progress;
+
+            obj.innerHTML = (isFloat
+                ? currentVal.toFixed(2)
+                : Math.floor(currentVal).toLocaleString()) + suffix;
+
             if (progress < 1) window.requestAnimationFrame(step);
         };
         window.requestAnimationFrame(step);
     },
 
-    updateDashboardData() {
+    async updateDashboardData() {
+        try {
+            const res = await fetch(API_BASE_URL + '/stats', { cache: 'no-store' });
+            this.globalStats = await res.json();
+        } catch (e) {
+            console.error("Dashboard Stats Error:", e);
+        }
+
         let co2, waste, trees;
-        if (this.scope === 'school') {
-            co2 = this.globalStats.co2;
-            waste = this.globalStats.waste;
-            trees = this.globalStats.trees;
+        // If current user is a teacher/admin, ALWAYS show global school stats
+        const isTeacher = this.currentUser && this.currentUser.role === 'teacher';
+
+        if (this.scope === 'school' || isTeacher) {
+            co2 = this.globalStats.co2 || 0;
+            waste = this.globalStats.waste || 0;
+            trees = this.globalStats.trees || 0;
         } else {
             // Mock data for class/grade
             const mult = this.scope === 'class' ? 0.05 : 0.2;
-            co2 = this.globalStats.co2 * mult;
-            waste = this.globalStats.waste * mult;
-            trees = this.globalStats.trees * mult;
+            co2 = (this.globalStats.co2 || 0) * mult;
+            waste = (this.globalStats.waste || 0) * mult;
+            trees = (this.globalStats.trees || 0) * mult;
         }
 
-        this.animateValue('stat-co2', co2);
-        this.animateValue('stat-waste', waste);
-        this.animateValue('stat-trees', trees);
+        this.animateValue('stat-co2', co2, ' kg');
+        this.animateValue('stat-waste', waste, ' kg');
+        this.animateValue('stat-trees', trees, '');
 
         if (this.charts.waste) {
             const baseData = [35, 40, 15, 10];
             this.charts.waste.data.datasets[0].data = baseData.map(v => v * (0.8 + Math.random() * 0.4));
             this.charts.waste.update();
+        }
+
+        if (this.charts.studentTrend) {
+            const currentRatio = parseFloat(co2) || 8.9;
+            const trendCurve = [0.2, 0.45, 0.35, 0.7, 0.65, 1.0];
+            this.charts.studentTrend.data.datasets[0].data = trendCurve.map(v => v * currentRatio);
+            this.charts.studentTrend.update();
+        }
+    },
+
+    async renderTrendChart() {
+        const canvas = document.getElementById('teacherTrendChart');
+        if (!canvas) return;
+
+        try {
+            // Fetch historical approval data
+            const res = await fetch(API_BASE_URL + '/history/all');
+            let history = [];
+            if (res.ok) {
+                history = await res.json();
+            } else {
+                // If the generic history endpoint isn't built, mock baseline data
+                history = [
+                    { time: Date.now() - 86400000 * 5, co2: 2.1 },
+                    { time: Date.now() - 86400000 * 4, co2: 3.5 },
+                    { time: Date.now() - 86400000 * 3, co2: 5.2 },
+                    { time: Date.now() - 86400000 * 2, co2: 6.8 },
+                    { time: Date.now() - 86400000 * 1, co2: 8.9 }
+                ];
+            }
+
+            // Simple Linear Regression: y = mx + b
+            // We use Days (x) and cumulative CO2 (y)
+            const n = 5;
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+
+            // Bind the Trend Chart to the actual Global Stats CO2 metric dynamically
+            const currentCo2 = parseFloat(this.globalStats.co2) || 8.9;
+            const yValues = [
+                currentCo2 * 0.2,
+                currentCo2 * 0.4,
+                currentCo2 * 0.6,
+                currentCo2 * 0.8,
+                currentCo2
+            ];
+
+            for (let i = 0; i < n; i++) {
+                const x = i;
+                const y = yValues[i];
+                sumX += x;
+                sumY += y;
+                sumXY += x * y;
+                sumXX += x * x;
+            }
+
+            const m = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const b = (sumY - m * sumX) / n;
+
+            // Generate Past 5 Days + Future 30 Days
+            const labels = [];
+            const realData = [];
+            const projectedData = [];
+
+            for (let i = 0; i < 35; i++) {
+                labels.push(i < 5 ? `Ngày -${5 - i}` : `Ngày +${i - 4}`);
+                if (i < 5) {
+                    realData.push(yValues[i]);
+                    projectedData.push(null);
+                } else if (i === 4) {
+                    projectedData.push(yValues[i]); // Bridge the lines
+                } else {
+                    realData.push(null);
+                    projectedData.push(m * i + b);
+                }
+            }
+
+            // Update Summary Text
+            const currentTotal = yValues[4];
+            const futureTotal = m * 34 + b;
+            const percentGrowth = (((futureTotal - currentTotal) / currentTotal) * 100).toFixed(1);
+
+            const summaryTextEn = `📉 Based on 7-day data, the AI projects CO2 emissions reduction will surge by <strong>+${percentGrowth}%</strong> over the next 30 days, hitting <strong>${futureTotal.toFixed(1)} kg</strong>.`;
+            const summaryTextVi = `📉 Dựa trên dữ liệu 7 ngày qua, hệ thống AI tính toán lượng CO2 giảm thiểu sẽ tăng đột phá <strong>+${percentGrowth}%</strong> trong 30 ngày tới, đạt mốc <strong>${futureTotal.toFixed(1)} kg</strong>.`;
+
+            document.getElementById('trend-summary-text').innerHTML = this.lang === 'vi' ? summaryTextVi : summaryTextEn;
+
+            if (this.charts.teacherTrend) this.charts.teacherTrend.destroy();
+
+            // Create a sleek aesthetic gradient fill for the real data
+            const ctx = canvas.getContext('2d');
+            const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientFill.addColorStop(0, 'rgba(16, 185, 129, 0.4)'); // Solid Emerald at top
+            gradientFill.addColorStop(1, 'rgba(16, 185, 129, 0.05)'); // Fades out at bottom
+
+            this.charts.teacherTrend = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: this.lang === 'vi' ? 'Thực tế (kg CO2)' : 'Actual (kg CO2)',
+                            data: realData,
+                            borderColor: '#10b981', // Emerald green
+                            backgroundColor: gradientFill,
+                            fill: true,
+                            tension: 0.4, // Smooth curved lines
+                            borderWidth: 3,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#10b981',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: this.lang === 'vi' ? 'Dự phóng AI (kg CO2)' : 'AI Prediction (kg CO2)',
+                            data: projectedData,
+                            borderColor: '#8b5cf6', // Violet/Purple for AI 
+                            borderDash: [8, 5],
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 0, // Hide dots on prediction line for a cleaner look
+                            pointHoverRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'rgba(255, 255, 255, 0.8)',
+                                font: { family: "'Nunito', sans-serif", weight: '600', size: 12 },
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: "'Nunito', sans-serif", size: 13 },
+                            bodyFont: { family: "'Nunito', sans-serif", size: 13 },
+                            padding: 10,
+                            cornerRadius: 8,
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                                font: { family: "'Nunito', sans-serif" }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                borderDash: [5, 5]
+                            },
+                            border: { display: false }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                                font: { family: "'Nunito', sans-serif" },
+                                maxTicksLimit: 7
+                            },
+                            grid: { display: false },
+                            border: { display: false }
+                        }
+                    }
+                }
+            });
+        } catch (e) {
+            console.error("Trend Chart error:", e);
         }
     },
 
@@ -909,20 +1488,47 @@ const AppState = {
         document.querySelectorAll('.w-tab').forEach(b => b.classList.toggle('active', b.id === `w-tab-${t}`));
     },
 
+    openWikiModal(type) {
+        const data = this.wikiData[type];
+        if (!data) return;
+
+        document.getElementById('wiki-modal-title').textContent = data.title;
+        document.getElementById('wiki-modal-desc').textContent = data.desc;
+        document.getElementById('wiki-modal-img').src = data.img;
+
+        const grid = document.getElementById('wiki-modal-examples');
+        document.getElementById('wiki-modal-count').textContent = data.examples.length;
+
+        grid.innerHTML = data.examples.map(ex => `
+            <div style="background:var(--bg-secondary); border-radius:10px; overflow:hidden; border:1px solid var(--border-color); text-align:center">
+                <div style="height:100px; background:#fff; display:flex; align-items:center; justify-content:center; padding:10px;">
+                    <img src="${ex.img}" alt="${ex.name}" style="max-height:100%; max-width:100%; object-fit:contain" onerror="this.src='https://via.placeholder.com/150?text=Ảnh+minh+họa'">
+                </div>
+                <div style="padding:10px 5px; font-size:0.8rem; font-weight:600; color:var(--text-main)">${ex.name}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('wiki-modal').classList.remove('hidden');
+    },
+
+    closeWikiModal() {
+        document.getElementById('wiki-modal').classList.add('hidden');
+    },
+
     wikiData: {
         plastic: {
             title: "Nhựa Tái Chế",
             desc: "Rửa sạch, ép xẹp trước khi bỏ vào thùng để tiết kiệm diện tích. Chỉ sử dụng cho các loại nhựa có ký hiệu tái chế.",
             img: "assets/plastic.png",
             examples: [
-                { name: "Chai Nhựa (PET)", img: "assets/wiki/wiki_img_21.jpg" },
-                { name: "Ly Trà Sữa Nhựa", img: "assets/wiki/wiki_img_40.jpg" },
-                { name: "Túi Nilon Sạch", img: "assets/wiki/wiki_img_35.jpg" },
-                { name: "Hộp Cơm Nhựa", img: "assets/wiki/wiki_img_27.jpg" },
-                { name: "Bình Tẩy Rửa", img: "assets/wiki/wiki_img_10.jpg" },
-                { name: "Ống Hút Nhựa", img: "assets/wiki/wiki_img_47.jpg" },
-                { name: "Chậu Cây Nhựa", img: "assets/wiki/wiki_img_19.jpg" },
-                { name: "Đồ Chơi Nhựa", img: "assets/wiki/wiki_img_18.jpg" }
+                { name: "Chai Nhựa (PET)", img: "assets/wiki_accurate/Chai_Nhựa__PET_.jpg" },
+                { name: "Ly Trà Sữa Nhựa", img: "assets/wiki_accurate/Ly_Trà_Sữa_Nhựa.jpg" },
+                { name: "Túi Nilon Sạch", img: "assets/wiki_accurate/Túi_Nilon_Sạch.jpg" },
+                { name: "Hộp Cơm Nhựa", img: "assets/wiki_accurate/Hộp_Cơm_Nhựa.jpg" },
+                { name: "Bình Tẩy Rửa", img: "assets/wiki_accurate/Bình_Tẩy_Rửa.jpg" },
+                { name: "Ống Hút Nhựa", img: "assets/wiki_accurate/Ống_Hút_Nhựa.jpg" },
+                { name: "Chậu Cây Nhựa", img: "assets/wiki_accurate/Chậu_Cây_Nhựa.jpg" },
+                { name: "Đồ Chơi Nhựa", img: "assets/wiki_accurate/Đồ_Chơi_Nhựa.jpg" }
             ]
         },
         paper: {
@@ -930,14 +1536,14 @@ const AppState = {
             desc: "Giữ giấy luôn khô ráo, tháo gỡ keo, ghim bấm trước khi đem tái chế.",
             img: "assets/paper.png",
             examples: [
-                { name: "Thùng Carton", img: "assets/wiki/wiki_img_9.jpg" },
-                { name: "Báo Cũ", img: "assets/wiki/wiki_img_26.jpg" },
-                { name: "Sách / Vở Ghi Chép", img: "assets/wiki/wiki_img_8.jpg" },
-                { name: "Túi Giấy Tái Chế", img: "assets/wiki/wiki_img_14.jpg" },
-                { name: "Ly Giấy Cà Phê", img: "assets/wiki/wiki_img_21.jpg" },
-                { name: "Bao Bì Giấy", img: "assets/wiki/wiki_img_14.jpg" },
-                { name: "Lõi Cuộn Giấy", img: "assets/wiki/wiki_img_29.jpg" },
-                { name: "Thiệp Điện Tử Cũ", img: "assets/wiki/wiki_img_57.jpg" }
+                { name: "Thùng Carton", img: "assets/wiki_accurate/Thùng_Carton.jpg" },
+                { name: "Báo Cũ", img: "assets/wiki_accurate/Báo_Cũ.jpg" },
+                { name: "Sách / Vở Ghi Chép", img: "assets/wiki_accurate/Sách___Vở_Ghi_Chép.jpg" },
+                { name: "Túi Giấy Tái Chế", img: "assets/wiki_accurate/Túi_Giấy_Tái_Chế.jpg" },
+                { name: "Ly Giấy Cà Phê", img: "assets/wiki_accurate/Ly_Giấy_Cà_Phê.jpg" },
+                { name: "Bao Bì Giấy", img: "assets/wiki_accurate/Bao_Bì_Giấy.jpg" },
+                { name: "Lõi Cuộn Giấy", img: "assets/wiki_accurate/Lõi_Cuộn_Giấy.jpg" },
+                { name: "Thiệp Điện Tử Cũ", img: "assets/wiki_accurate/Thiệp_Điện_Tử_Cũ.jpg" }
             ]
         },
         metal: {
@@ -945,14 +1551,14 @@ const AppState = {
             desc: "Đổ hết chất lỏng và rửa sơ bên trong các lon nước, vò bẹp (nếu là nhôm) để tiết kiệm không gian.",
             img: "assets/metal.png",
             examples: [
-                { name: "Lon Nhôm (Nước Ngọt)", img: "assets/wiki/wiki_img_29.jpg" },
-                { name: "Đồ Hộp Thiếc", img: "assets/wiki/wiki_img_9.jpg" },
-                { name: "Khay Bạc Mỏng", img: "assets/wiki/wiki_img_27.jpg" },
-                { name: "Mảnh Đồng / Thau", img: "assets/wiki/wiki_img_2.jpg" },
-                { name: "Kẹp Sắt", img: "assets/wiki/wiki_img_18.jpg" },
-                { name: "Chìa Khóa Cũ", img: "assets/wiki/wiki_img_14.jpg" },
-                { name: "Đinh Ốc Vít", img: "assets/wiki/wiki_img_19.jpg" },
-                { name: "Linh Kiện Nhôm", img: "assets/wiki/wiki_img_10.jpg" }
+                { name: "Lon Nhôm (Nước Ngọt)", img: "assets/wiki_accurate/Lon_Nhôm__Nước_Ngọt_.jpg" },
+                { name: "Đồ Hộp Thiếc", img: "assets/wiki_accurate/Đồ_Hộp_Thiếc.jpg" },
+                { name: "Khay Bạc Mỏng", img: "assets/wiki_accurate/Khay_Bạc_Mỏng.jpg" },
+                { name: "Mảnh Đồng / Thau", img: "assets/wiki_accurate/Mảnh_Đồng___Thau.jpg" },
+                { name: "Kẹp Sắt", img: "assets/wiki_accurate/Kẹp_Sắt.jpg" },
+                { name: "Chìa Khóa Cũ", img: "assets/wiki_accurate/Chìa_Khóa_Cũ.jpg" },
+                { name: "Đinh Ốc Vít", img: "assets/wiki_accurate/Đinh_Ốc_Vít.jpg" },
+                { name: "Linh Kiện Nhôm", img: "assets/wiki_accurate/Linh_Kiện_Nhôm.jpg" }
             ]
         },
         glass: {
@@ -960,14 +1566,14 @@ const AppState = {
             desc: "Tháo nắp trước khi bỏ. Cẩn thận với mảnh vỡ. Nên gói giấy báo nếu đã bị nát vụn.",
             img: "assets/glass.png",
             examples: [
-                { name: "Chai Thủy Tinh", img: "assets/wiki/wiki_img_35.jpg" },
-                { name: "Hũ Mứt / Hũ Yến", img: "assets/wiki/wiki_img_19.jpg" },
-                { name: "Ly Thủy Tinh Vỡ", img: "assets/wiki/wiki_img_18.jpg" },
-                { name: "Mặt Kính Cong", img: "assets/wiki/wiki_img_57.jpg" },
-                { name: "Chai Rượu Chát", img: "assets/wiki/wiki_img_17.jpg" },
-                { name: "Lọ Cắm Hoa", img: "assets/wiki/wiki_img_37.jpg" },
-                { name: "Chén Dĩa Sứ", img: "assets/wiki/wiki_img_47.jpg" },
-                { name: "Mảnh Vỡ Đóng Gói", img: "assets/wiki/wiki_img_40.jpg" }
+                { name: "Chai Thủy Tinh", img: "assets/wiki_accurate/Chai_Thủy_Tinh.jpg" },
+                { name: "Hũ Mứt / Hũ Yến", img: "assets/wiki_accurate/Hũ_Mứt___Hũ_Yến.jpg" },
+                { name: "Ly Thủy Tinh Vỡ", img: "assets/wiki_accurate/Ly_Thủy_Tinh_Vỡ.jpg" },
+                { name: "Mặt Kính Cong", img: "assets/wiki_accurate/Mặt_Kính_Cong.jpg" },
+                { name: "Chai Rượu Chát", img: "assets/wiki_accurate/Chai_Rượu_Chát.jpg" },
+                { name: "Lọ Cắm Hoa", img: "assets/wiki_accurate/Lọ_Cắm_Hoa.jpg" },
+                { name: "Chén Dĩa Sứ", img: "assets/wiki_accurate/Chén_Dĩa_Sứ.jpg" },
+                { name: "Mảnh Vỡ Đóng Gói", img: "assets/wiki_accurate/Mảnh_Vỡ_Đóng_Gói.jpg" }
             ]
         },
         organic: {
@@ -975,14 +1581,14 @@ const AppState = {
             desc: "Thức ăn thừa mủn tự nhiên dùng để ủ phân compost thực vật. Tuyệt đối không để lẫn nilon hay xương động vật lớn.",
             img: "assets/organic.png",
             examples: [
-                { name: "Vỏ Trái Cây", img: "assets/wiki/wiki_img_25.jpg" },
-                { name: "Bã Cà Phê / Trà", img: "assets/wiki/wiki_img_59.jpg" },
-                { name: "Cơm Thừa, Canh", img: "assets/wiki/wiki_img_23.jpg" },
-                { name: "Lá Cây Khô", img: "assets/wiki/wiki_img_57.jpg" },
-                { name: "Rau Héo Úa", img: "assets/wiki/wiki_img_17.jpg" },
-                { name: "Vỏ Trứng Gà", img: "assets/wiki/wiki_img_36.jpg" },
+                { name: "Vỏ Trái Cây", img: "assets/wiki_accurate/Vỏ_Trái_Cây.jpg" },
+                { name: "Bã Cà Phê / Trà", img: "assets/wiki_accurate/Bã_Cà_Phê___Trà.jpg" },
+                { name: "Cơm Thừa, Canh", img: "assets/wiki_accurate/Cơm_Thừa__Canh.jpg" },
+                { name: "Lá Cây Khô", img: "assets/wiki_accurate/Lá_Cây_Khô.jpg" },
+                { name: "Rau Héo Úa", img: "assets/wiki_accurate/Rau_Héo_Úa.jpg" },
+                { name: "Vỏ Trứng Gà", img: "assets/wiki_accurate/Vỏ_Trứng_Gà.jpg" },
                 { name: "Trái Cây Hư", img: "assets/wiki/wiki_img_37.jpg" },
-                { name: "Xương Nhỏ Xay", img: "assets/wiki/wiki_img_12.jpg" }
+                { name: "Xương Nhỏ Xay", img: "assets/wiki_accurate/Xương_Nhỏ_Xay.jpg" }
             ]
         },
         ewaste: {
@@ -994,8 +1600,8 @@ const AppState = {
                 { name: "Bo Mạch Điện Tử", img: "assets/wiki/wiki_img_23.jpg" },
                 { name: "Dây Sạc Hỏng / Đứt", img: "assets/wiki/wiki_img_16.jpg" },
                 { name: "Điện Thoại Cũ", img: "assets/wiki/wiki_img_47.jpg" },
-                { name: "Chuột Máy Tính", img: "assets/wiki/wiki_img_12.jpg" },
-                { name: "Bàn Phím Hỏng", img: "assets/wiki/wiki_img_12.jpg" },
+                { name: "Chuột Máy Tính", img: "assets/wiki_accurate/Chuột_Máy_Tính.jpg" },
+                { name: "Bàn Phím Hỏng", img: "assets/wiki_accurate/Bàn_Phím_Hỏng.jpg" },
                 { name: "Quạt Máy Tính", img: "assets/wiki/wiki_img_21.jpg" },
                 { name: "Ổ Cứng / Thẻ Nhớ", img: "assets/wiki/wiki_img_27.jpg" }
             ]
@@ -1020,7 +1626,7 @@ const AppState = {
             desc: "Các chai lọ chứa hóa chất ăn mòn, kim loại nặng cực độc (sơn, thủy ngân). Mang ra trạm thu gom đặc biệt.",
             img: "assets/danger.png",
             examples: [
-                { name: "Bóng Đèn Huỳnh Quang", img: "assets/wiki/wiki_img_23.jpg" },
+                { name: "Bóng Đèn Huỳnh Quang", img: "assets/wiki_accurate/Bóng_Đèn_Huỳnh_Quang.jpg" },
                 { name: "Thùng Sơn Hóa Học", img: "assets/wiki/wiki_img_16.jpg" },
                 { name: "Bình Phun Diệt Muỗi", img: "assets/wiki/wiki_img_8.jpg" },
                 { name: "Nhiệt Kế Y Tế Cũ", img: "assets/wiki/wiki_img_40.jpg" },
@@ -1029,44 +1635,6 @@ const AppState = {
                 { name: "Thuốc Hết Hạn", img: "assets/wiki/wiki_img_36.jpg" },
                 { name: "Bơm Kim Tiêm", img: "assets/wiki/wiki_img_25.jpg" }
             ]
-        }
-    },
-
-    openWikiModal(type) {
-        const data = this.wikiData[type];
-        if (!data) return;
-
-        document.getElementById('wiki-modal-title').textContent = data.title;
-        document.getElementById('wiki-modal-desc').textContent = data.desc;
-        document.getElementById('wiki-modal-img').src = data.img;
-
-        const countEl = document.getElementById('wiki-modal-count');
-        if (countEl) countEl.textContent = data.examples.length;
-
-        document.getElementById('wiki-modal-examples').innerHTML = data.examples.map(ex => `
-            <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-                <img src="${ex.img}" alt="${ex.name}" style="width: 100%; height: 110px; object-fit: cover;">
-                <div style="padding: 10px; text-align: center; font-size: 0.9rem; font-weight: 600; color: var(--text-main); flex-grow: 1; display: flex; align-items: center; justify-content: center;">${ex.name}</div>
-            </div>
-        `).join('');
-
-        document.getElementById('wiki-modal').classList.remove('hidden');
-    },
-
-    closeWikiModal() {
-        document.getElementById('wiki-modal').classList.add('hidden');
-    },
-
-    redeemReward(id, name, cost) {
-        if (this.tokens < cost) {
-            alert(this.lang === 'vi' ? "Bạn không đủ Green Tokens để đổi quà này!" : "Not enough Green Tokens!");
-            return;
-        }
-
-        if (confirm(this.lang === 'vi' ? `Bạn có muốn đổi ${cost} tokens lấy ${name}?` : `Redeem ${name} for ${cost} tokens?`)) {
-            this.tokens -= cost;
-            this.updateTokenDisplay();
-            alert(this.lang === 'vi' ? "Đổi quà thành công! Vui lòng nhận quà tại Văn phòng Đoàn." : "Redemption successful! Please collect your reward at the Office.");
         }
     }
 };

@@ -1,6 +1,6 @@
-# 🌿 EcoTask - ICIA 2026 Titanium Edition
+# 🌿 EcoSchool - ICIA 2026 Titanium Edition
 
-**EcoTask** is a professional, AI-powered recycling management system designed for the school environment. It combines cutting-edge AI waste classification with a gamified reward system to encourage sustainable habits among students.
+**EcoSchool** is a professional, AI-powered recycling management system designed for the school environment. It combines cutting-edge AI waste classification with a gamified reward system to encourage sustainable habits among students.
 
 ## 🚀 Key Features
 
