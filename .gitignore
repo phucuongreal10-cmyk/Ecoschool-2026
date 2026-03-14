@@ -1,0 +1,31 @@
+# ==========================================
+# CÁC FILE KHÔNG CẦN TẢI LÊN VERCEL / GITHUB
+# (Lưu file này tên là .gitignore)
+# ==========================================
+
+# 1. Cơ sở dữ liệu (Vì Vercel sẽ tự reset, không nên mang file cũ lên)
+ecoschool.db
+
+# 2. Các file chạy Local (Chỉ dùng ở máy tính của bạn)
+run_local.py
+list_models.py
+*.pyc
+__pycache__/
+
+# 3. Các Script bổ trợ / Debug (Không dùng cho người dùng cuối)
+test_gemini_endpoint.py
+test_js.js
+cleanup_urls.py
+fix_broken_urls.py
+download_accurate_images.py
+download_wiki_images.py
+download_images.py
+seed_test_queue.py
+remove_bg.py
+models.txt
+list_models.py
+
+# 4. Folder cấu hình của trình soạn thảo
+.vscode/
+.idea/
+.DS_Store
