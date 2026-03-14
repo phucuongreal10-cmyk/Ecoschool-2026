@@ -125,7 +125,7 @@
                     <i data-lucide="home"></i> <span data-i18n="nav_home">Trang chủ</span>
                 </button>
                 <button class="nav-link student-only" onclick="AppState.openDirectProof()" data-page="proof">
-                    <i data-lucide="camera"></i> <span data-i18n="nav_proof">Gửi minh chứng</span>
+                    <i data-lucide="camera"></i> <span data-i18n="nav_proof">Gửi sản phẩm tái chế</span>
                 </button>
                 <button class="nav-link student-only"
                     onclick="if(AppState.resetScanner) AppState.resetScanner(); AppState.navigateTo('scanner')"
@@ -165,7 +165,7 @@
                     <img id="nav-avatar" src="" alt="" class="nav-avatar">
                     <div class="nav-user-info">
                         <span id="nav-username" class="nav-username"></span>
-                        <span id="nav-token-display" class="nav-tokens"><i data-lucide="leaf"
+                        <span id="nav-token-display" class="nav-tokens student-only"><i data-lucide="leaf"
                                 style="width:12px;height:12px"></i> <span id="nav-tokens">0</span> tokens</span>
                     </div>
                 </div>
@@ -208,8 +208,7 @@
                                 trường của toàn trường.</p>
                             <div class="hero-buttons">
                                 <button class="btn btn-primary student-only" onclick="AppState.openDirectProof()">
-                                    <i data-lucide="upload"></i> <span data-i18n="btn_proof_direct">Gửi minh chứng rác
-                                        thải</span>
+                                    <i data-lucide="upload"></i> <span data-i18n="btn_proof_direct">Gửi sản phẩm tái chế</span>
                                 </button>
                                 <button class="btn btn-outline student-only"
                                     onclick="if(AppState.resetScanner) AppState.resetScanner(); AppState.navigateTo('scanner')">
@@ -302,8 +301,8 @@
                     <div class="scanner-container">
                         <div class="scanner-interface">
                             <div class="upload-zone" id="upload-zone">
-                                <input type="file" id="ai-upload" accept="image/*" hidden>
-                                <input type="file" id="ai-camera" accept="image/*" capture="environment" hidden>
+                                <input type="file" id="ai-upload" accept="image/*" hidden onchange="AppState.handleImageUpload(event)">
+                                <input type="file" id="ai-camera" accept="image/*" capture="environment" hidden onchange="AppState.handleImageUpload(event)">
                                 <div class="upload-content">
                                     <i data-lucide="camera" class="upload-icon"></i>
                                     <h3 data-i18n="upload_title">Chụp ảnh hoặc tải lên</h3>
@@ -370,11 +369,16 @@
                                 <p data-i18n="proof_desc">Hãy chụp ảnh bạn bỏ rác vào đúng thùng quy định.</p>
                                 <input type="file" id="proof-camera" accept="image/*" capture="environment" hidden
                                     onchange="AppState.handleProofUpload(event)">
-                                <div class="proof-btn-container">
+                                <input type="file" id="proof-upload" accept="image/*" hidden
+                                    onchange="AppState.handleProofUpload(event)">
+                                <div class="proof-btn-container" style="display: flex; gap: 10px; justify-content: center;">
                                     <button class="btn btn-primary"
                                         onclick="document.getElementById('proof-camera').click()">
-                                        <i data-lucide="camera"></i> <span data-i18n="btn_proof">Chụp ảnh bằng
-                                            chứng</span>
+                                        <i data-lucide="camera"></i> <span data-i18n="btn_proof">Chụp ảnh</span>
+                                    </button>
+                                    <button class="btn btn-outline"
+                                        onclick="document.getElementById('proof-upload').click()">
+                                        <i data-lucide="image"></i> <span data-i18n="btn_proof_upload">Tải ảnh lên</span>
                                     </button>
                                 </div>
                                 <div id="proof-preview-container" class="proof-preview hidden"
@@ -421,8 +425,10 @@
                         </div>
                     </div>
 
-                    <!-- Sub-page: Moderation -->
                     <div id="teacher-moderation" class="teacher-tab-content">
+                        <div style="display:flex; justify-content:flex-end; padding: 0 15px;">
+                            <button class="btn btn-sm btn-outline" onclick="AppState.seedDemoData()" style="font-size: 0.6rem; opacity: 0.4;">Seed Demo Data</button>
+                        </div>
                         <div id="moderation-grid" class="moderation-list">
                             <!-- Pending items will be rendered here -->
                             <div class="empty-state">

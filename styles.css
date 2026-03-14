@@ -163,7 +163,8 @@
     box-sizing: border-box;
 
 
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    word-break: break-word; /* FIX: Prevent long text from overflowing mobile screens */
 
 
 }
@@ -781,13 +782,11 @@ body {
 }
 
 
-
-
-
+/* Typography utilities */
 .text-gradient {
 
 
-    background: linear-gradient(135deg, var(--primary), #3B82F6);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
 
 
     -webkit-background-clip: text;
@@ -797,6 +796,7 @@ body {
 
 
     -webkit-text-fill-color: transparent;
+    display: inline-block; /* Prevent gradient clipping */
 
 
 }
@@ -2442,9 +2442,9 @@ body {
 
 
     padding: 40px 32px;
-
-
+    margin: 0 auto;
     width: 100%;
+    overflow-x: hidden; /* FIX: Stop horizontal scrolling entirely */
 
 
     max-width: 420px;
@@ -5175,6 +5175,51 @@ body {
     color: #EF4444;
 }
 
-.toast:not(.error) .toast-icon {
-    color: var(--primary);
+@media (max-width: 480px) {
+    /* FIX: Hide redundant text in header to save space on mobile */
+    .navbar { 
+        padding: 0 10px; 
+        height: 60px; 
+        justify-content: space-between;
+        flex-wrap: nowrap; /* Prevent logo from ever becoming vertical */
+    }
+    
+    .nav-brand { 
+        font-size: 1rem; 
+        gap: 4px; 
+        min-width: fit-content;
+        flex-shrink: 0;
+    }
+    .nav-brand span, .nav-brand .badge { display: none !important; } /* Only show the ICON on tiny screens */
+    
+    .nav-user-info { display: none !important; } /* Hide name, keep Avatar */
+    .nav-actions { gap: 4px; flex-shrink: 0; }
+    .lang-btn #lang-text { display: none; } /* Hide 'VN' text, keep flag */
+
+    /* FIX: Hero section typography & buttons */
+    .hero {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .hero h1 { 
+        font-size: 1.6rem !important; 
+        line-height: 1.25;
+        margin-bottom: 16px;
+    }
+    .hero p { font-size: 0.9rem; line-height: 1.5; }
+    
+    .hero-buttons {
+        display: flex;
+        flex-direction: column; 
+        gap: 10px;
+        width: 100%;
+        margin-top: 20px;
+    }
+    .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+        font-size: 0.95rem;
+    }
 }
+
