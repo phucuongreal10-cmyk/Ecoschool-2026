@@ -10,8 +10,10 @@ import json
 # ==========================================
 # GEMINI API CONFIGURATION
 # ==========================================
-# Priority: Environment variable (for Vercel), then hardcoded fallback.
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyCq_RDB-QlI8d6ey2mNS6L9UlWD7JWrR9M")
+# Key is loaded ONLY from environment variable (set it in Vercel dashboard)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+if not GEMINI_API_KEY:
+    print("WARNING: GEMINI_API_KEY environment variable is not set!")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 MODEL_NAME = "gemini-2.0-flash"
