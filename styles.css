@@ -649,29 +649,13 @@ body {
 
 
 .hero {
-
-
-    min-height: 85vh;
-
-
+    min-height: 80vh;
     display: flex;
-
-
     align-items: center;
-
-
     justify-content: center;
-
-
     position: relative;
-
-
-    padding: 40px 5%;
-
-
+    padding: 80px 5% 120px; /* 🔥 FIX: More bottom padding for safety */
     overflow: hidden;
-
-
 }
 
 
@@ -948,35 +932,14 @@ body {
 
 
 .features-preview {
-
-
-    max-width: 1000px;
-
-
-    margin: -60px auto 40px;
-
-
-    /* Overlap Hero */
-
-
+    max-width: 1100px;
+    margin: -50px auto 60px; /* 🔥 FIX: Safer overlap */
     display: grid;
-
-
-    grid-template-columns: repeat(3, 1fr);
-
-
-    gap: 24px;
-
-
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Better responsiveness */
+    gap: 32px;
     padding: 0 24px;
-
-
     position: relative;
-
-
     z-index: 20;
-
-
 }
 
 
