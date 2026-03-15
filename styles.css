@@ -246,29 +246,15 @@ body {
 
 
 .nav-brand {
-
-
     display: flex;
-
-
     align-items: center;
-
-
-    gap: 10px;
-
-
+    gap: 8px;
     font-size: 1.5rem;
-
-
     font-weight: 800;
-
-
     color: var(--primary);
-
-
     cursor: pointer;
-
-
+    white-space: nowrap; /* 🔥 FIX: Prevent brand name from wrapping */
+    flex-shrink: 0;
 }
 
 
@@ -276,26 +262,16 @@ body {
 
 
 .badge {
-
-
     font-size: 0.7rem;
-
-
     background: var(--primary);
-
-
     color: white;
-
-
-    padding: 2px 8px;
-
-
-    border-radius: 12px;
-
-
-    vertical-align: middle;
-
-
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap; /* 🔥 FIX: Prevent badge text from wrapping */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 
