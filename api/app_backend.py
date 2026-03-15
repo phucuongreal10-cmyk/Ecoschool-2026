@@ -158,10 +158,15 @@ def get_queue():
     results = [dict(row) for row in cur.fetchall()]
     return jsonify(results)
 
+@app.route('/api/history', defaults={'username': None}, methods=['GET'])
 @app.route('/api/history/<username>', methods=['GET'])
 def get_history(username):
     db = get_db()
-    cur = db.execute('SELECT * FROM submissions WHERE user = ? ORDER BY id DESC', (username,))
+    if username:
+        cur = db.execute('SELECT * FROM submissions WHERE user = ? ORDER BY id DESC LIMIT 50', (username,))
+    else:
+        # 🌍 Global history for the community view
+        cur = db.execute('SELECT * FROM submissions ORDER BY id DESC LIMIT 50')
     results = [dict(row) for row in cur.fetchall()]
     return jsonify(results)
 

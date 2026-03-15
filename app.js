@@ -1082,10 +1082,11 @@ const AppState = {
 
     async renderStudentHistory() {
         const grid = document.getElementById('student-history-grid');
-        if (!grid || !this.currentUser) return;
+        if (!grid) return;
 
         try {
-            const res = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(this.currentUser.name)}`);
+            // 🌍 FIX: Fetch Global History instead of just current user
+            const res = await fetch(`${API_BASE_URL}/history`);
             this.submissionHistory = res.ok ? await res.json() : [];
         } catch (e) {
             console.error("History fetch idle (Offline Mode)");
@@ -1093,9 +1094,9 @@ const AppState = {
         }
 
         // 🚀 CONSOLIDATE HISTORY: Merge LocalQueue (Offline) with ServerHistory
-        // Filter out local items that are already on the server (status is no longer pending on server)
         const serverIds = new Set(this.submissionHistory.map(i => i.id));
-        const mergedHistory = [...this.localQueue.filter(li => !serverIds.has(li.id)), ...this.submissionHistory];
+        const myLocalItems = this.localQueue.filter(li => !serverIds.has(li.id) && li.user === (this.currentUser ? this.currentUser.name : ''));
+        const mergedHistory = [...myLocalItems, ...this.submissionHistory];
 
         if (mergedHistory.length === 0) {
             grid.innerHTML = `<p data-i18n="history_empty" style="grid-column: 1/-1; opacity: 0.5; text-align: center; padding: 20px;">${Translations[this.lang].history_empty}</p>`;
@@ -1106,7 +1107,10 @@ const AppState = {
             <div class="history-item-mini">
                 <img src="${item.img}" alt="Proof">
                 <div class="history-item-info">
-                    <span style="font-weight:700; font-size:0.85rem">${item.type}</span>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                        <span style="font-weight:700; font-size:0.85rem">${item.type}</span>
+                        <span style="font-size:0.65rem; padding: 2px 6px; background: rgba(16,185,129,0.1); border-radius: 4px; color: var(--primary)">${item.user || 'Student'}</span>
+                    </div>
                     <span style="font-size:0.7rem; opacity:0.7">${item.time}</span>
                     <div style="display:flex; align-items:center; gap:4px">
                         <i data-lucide="${item.status === 'pending' ? 'clock' : (item.status === 'approved' ? 'check-circle' : 'x-circle')}" 
